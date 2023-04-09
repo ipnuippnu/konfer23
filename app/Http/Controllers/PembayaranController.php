@@ -16,8 +16,14 @@ class PembayaranController extends Controller
 
     public function index(Request $request)
     {
+        $me = Delegator::find(\Sso::credential()->id);
+        if(in_array($me?->step->step, [DelegatorStep::$DIAJUKAN, DelegatorStep::$DITOLAK, null], FALSE))
+        {
+            abort(403, "Silahkan menyelesaikan pendaftaran anda terlebih dahulu.");
+        }
+
         $data = [
-            'delegator' => $me = Delegator::find(\Sso::credential()->id),
+            'delegator' => $me,
             'partners' => Delegator::where('address_code', $me->address_code)->orWhere('address_code', 'LIKE', $me->address_code . '%')->get()->map(function(Delegator $delegator) use($me) {
                 return [
                     "id" => $delegator->id, "name" => $delegator->name, "members" => $jumlah = $delegator->participants()->count(), "price" => (60000 * $jumlah), "is_me" => $delegator->id == $me->id
@@ -81,7 +87,7 @@ class PembayaranController extends Controller
     public function buktiTransfer()
     {
         $delegator = Delegator::find(\Sso::credential()->id);
-        if($delegator->payment)
+        if($delegator?->payment)
             return Storage::disk('bukti_transfer')->response($delegator->payment->bukti_transfer);
 
         abort(404);
