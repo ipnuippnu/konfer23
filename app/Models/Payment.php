@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Models;
+
+use App\Traits\Uuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Payment extends Model
+{
+    use HasFactory, Uuids, SoftDeletes;
+
+    protected $guarded = ['id'];
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function delegators()
+    {
+        return $this->hasMany(Delegator::class);
+    }
+
+    public function participants()
+    {
+        return $this->hasManyThrough(Participant::class, Delegator::class);
+    }
+}
