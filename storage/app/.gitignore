@@ -1,3 +1,6 @@
 *
 !public/
+!surat_pengesahan/
+!surat_tugas/
+!bukti_transfer/
 !.gitignore

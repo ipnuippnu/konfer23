@@ -50,7 +50,7 @@ return [
 
         'bukti_transfer' => [
             'driver' => 'local',
-            'root' => storage_path('app/surat_pengesahan'),
+            'root' => storage_path('app/bukti_transfer'),
             'throw' => false,
         ],
 
