@@ -38,13 +38,13 @@ Route::group(['middleware' => ['sso', 'guest']], function() {
         return view('chatting');
     })->name('chat');
 
-    Route::get('/huft', function(){
-        dd(\Sso::credential());
-    });
+    // Route::get('/huft', function(){
+    //     dd(\Sso::credential());
+    // });
 
 });
 
-Route::redirect('a', "\/Sandaran_Hati\/", 301);
-Route::group(['middleware' => 'auth', 'prefix' => 'Sandaran_Hati'], function(){
+// Route::redirect('a', "\/Sandaran_Hati\/", 301);
+// Route::group(['middleware' => 'auth', 'prefix' => 'Sandaran_Hati'], function(){
 
-});
+// });
