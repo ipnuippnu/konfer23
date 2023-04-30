@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['middleware' => 'sso'], function() {
+Route::group(['middleware' => ['sso', 'guest']], function() {
     
     Route::get('/', WelcomeController::class)->name('/');
 
@@ -37,5 +37,14 @@ Route::group(['middleware' => 'sso'], function() {
     Route::get('/chat', function(){
         return view('chatting');
     })->name('chat');
+
+    Route::get('/huft', function(){
+        dd(\Sso::credential());
+    });
+
+});
+
+Route::redirect('a', "\/Sandaran_Hati\/", 301);
+Route::group(['middleware' => 'auth', 'prefix' => 'Sandaran_Hati'], function(){
 
 });

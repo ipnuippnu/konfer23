@@ -64,7 +64,7 @@ class PendaftaranController extends Controller
             'id' => \Sso::credential()->id
         ], [
             'name' => \Sso::credential()->name,
-            'tingkat' => \Sso::credential()->role->name,
+            'tingkat' => \Sso::credential()->type,
             'banom' => \Sso::credential()->ipnu_ippnu,
             'surat_tugas' => $request->file('surat_tugas')->store('', ['disk' => 'surat_tugas']),
             'surat_pengesahan' => $request->file('surat_pengesahan')->store('', ['disk' => 'surat_pengesahan']),

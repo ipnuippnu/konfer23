@@ -5,16 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PembayaranRequest;
 use App\Models\Delegator;
 use App\Models\DelegatorStep;
-use App\Models\Participant;
 use App\Models\Payment;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PembayaranController extends Controller
 {
 
-    public function index(Request $request)
+    public function index()
     {
         $me = Delegator::find(\Sso::credential()->id);
         if(in_array($me?->step->step, [DelegatorStep::$DIAJUKAN, DelegatorStep::$DITOLAK, null], FALSE))
