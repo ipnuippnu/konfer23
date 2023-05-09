@@ -229,7 +229,7 @@
 	<script src="{{ asset("js/atlantis.min.js") }}"></script>
 
 	<!-- MyCustomScript -->
-	<script src="{{ asset("js/yunyun.js") }}"></script>
+	<script src="{{ asset("js/yunyun-2.js") }}"></script>
 
 	@stack('footer')
 </body>

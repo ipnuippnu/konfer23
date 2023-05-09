@@ -327,12 +327,12 @@
 		
 	</div>
 	<!--   Core JS Files   -->
-	<script src="{{ asset("js/core/jquery.") }}3.2.1.min.js"></script>
+	<script src="{{ asset("js/core/jquery.3.2.1.min.js") }}"></script>
 	<script src="{{ asset("js/core/popper.min.js") }}"></script>
 	<script src="{{ asset("js/core/bootstrap.min.js") }}"></script>
 
 	<!-- jQuery UI -->
-	<script src="{{ asset("js/plugin/jquery-ui-") }}1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="{{ asset("js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js") }}"></script>
 	<script src="{{ asset("js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js") }}"></script>
 
 	<!-- jQuery Scrollbar -->
@@ -364,7 +364,7 @@
 	<script src="{{ asset("js/atlantis.min.js") }}"></script>
 
 	<!-- MyCustomScript -->
-	<script src="{{ asset("js/yunyun.js") }}"></script>
+	<script src="{{ asset("js/yunyun-2.js") }}"></script>
 
 	@stack('footer')
 </body>
