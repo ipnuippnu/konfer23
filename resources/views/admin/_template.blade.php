@@ -158,26 +158,12 @@
 							<h4 class="text-section">Menu</h4>
 						</li>
 						
-						{{-- <li class="nav-item {{ active('daftar') }}">
-							<a href="{{ route('daftar') }}">
-								<i class="fas fa-plus-circle"></i>
-								<p>Pendaftaran</p>
+						<li class="nav-item {{ active(['admin.participants.*']) }}">
+							<a href="{{ route('admin.participants.index') }}">
+								<i class="fas fa-users"></i>
+								<p>Peserta</p>
 							</a>
 						</li>
-						
-						<li class="nav-item {{ active('bayar') }}">
-							<a href="{{ route('bayar') }}">
-								<i class="fas fa-credit-card"></i>
-								<p>Pembayaran</p>
-							</a>
-						</li>
-						
-						<li class="nav-item {{ active('chat') }}">
-							<a href="{{ route('chat') }}">
-								<i class="fas fa-headset"></i>
-								<p>LiveChat</p>
-							</a>
-						</li> --}}
 
 					</ul>
 				</div>

@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\ParticipantController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\RecapController;
 use App\Http\Controllers\Berkas\BerkasSuratMandat;
 use App\Http\Controllers\Berkas\BerkasSuratPengesahan;
 use App\Http\Controllers\BerkasController;
@@ -60,6 +62,9 @@ Route::group(['prefix' => sha1('YunYun'), 'as' => 'admin.'], function(){
 
         Route::post('/change-password', [ProfileController::class, 'changePassword'])->can('change-password')->name('change-password');
         Route::post('/change-picture', [ProfileController::class, 'changePicture'])->can('change-picture')->name('change-picture');
+
+        Route::get('participants/recap', [RecapController::class, 'participants'])->can('participants-recap')->name('participants.recap');
+        Route::apiResource('participants', ParticipantController::class);
     });
 
 
