@@ -17,4 +17,34 @@ class DelegatorStep extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    protected $appends = ['info'];
+
+    public function getInfoAttribute()
+    {
+        switch ($this->step) {
+            case self::$DIAJUKAN:
+                return "Diajukan";
+                break;
+
+            case self::$DITERIMA:
+                return "Menunggu Pembayaran";
+                break;
+
+            case self::$LUNAS:
+                return "Selesai";
+                break;
+
+            case self::$DIBLOKIR:
+                return "Diblokir";
+                break;
+
+            case self::$DIBAYAR:
+                return "Dibayar";
+                break;
+
+            case self::$DITOLAK:
+                return "Ditolak";
+                break;
+        }
+    }
 }

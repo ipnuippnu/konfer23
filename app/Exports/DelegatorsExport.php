@@ -2,30 +2,32 @@
 
 namespace App\Exports;
 
-use App\Models\Participant;
+use App\Models\Delegator;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class ParticipantsExport implements FromCollection, WithHeadings, WithEvents
+class DelegatorsExport implements FromCollection, WithEvents, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        return Participant::select('participants.id', 'participants.name', 'delegators.name as delegasi_asal', 'delegators.address_code as delegasi_code', 'born_place', 'born_date', 'participants.created_at')->join('delegators', 'delegators.id', '=', 'participants.delegator_id')->get()->sortBy(function($item){
+        return Delegator::select('id', 'name', 'tingkat', 'banom', 'address_code', 'whatsapp', 'attempt', 'created_at')->withCount('participants')->get()->sortBy(function($item){
 
             //Diurutkan berdasarkan address code
-            return str_pad($item->delegasi_code, 13, '.0000', STR_PAD_RIGHT);
+            return str_pad($item->address_code, 13, '.0000', STR_PAD_RIGHT);
 
         });
     }
 
     public function headings(): array
     {
-        return ['ID', 'Nama Lengkap', 'Asal Delegasi', 'Kode Alamat', 'Tempat Lahir', 'Tanggal Lahir', 'Terdaftar Pada'];
+        return [
+            'ID', 'Nama', 'Tingkat', 'Banom', 'Kode Daerah', 'No. WhatsApp', 'Revisi', 'Terdaftar Pada', 'Jumlah Peserta'
+        ];
     }
 
     public function registerEvents(): array

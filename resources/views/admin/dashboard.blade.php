@@ -134,7 +134,7 @@
                         </div>
                         <div class="flex-1 ml-3 pt-1">
                             <h6 class="text-uppercase fw-bold mb-1">{{ $activity->description }} <span class="text-success pl-3">{{ $activity->log_name }}</span></h6>
-                            <span class="text-muted">{{ $activity->causer?->name ?? $activity->subject?->name }}</span>
+                            <span class="text-muted">{{ $activity->subject?->name ?? $activity->causer?->name }}</span>
                         </div>
                         <div class="float-right pt-1">
                             <small class="text-muted">{{ $activity->created_at->diffForHumans() }}</small>
@@ -194,10 +194,10 @@
 		Circles.create({
 			id:'circles-3',
 			radius:45,
-			value:{{ $jumlah['membayar'] * $jumlah['pimpinan'] / 100 }},
+			value:{{ $jumlah['verified'] * $jumlah['pimpinan'] / 100 }},
 			maxValue:100,
 			width:7,
-			text: "{{ $jumlah["membayar"] }}",
+			text: "{{ $jumlah["verified"] }}",
 			colors:['#f1f1f1', '#F25961'],
 			duration:400,
 			wrpClass:'circles-wrp',

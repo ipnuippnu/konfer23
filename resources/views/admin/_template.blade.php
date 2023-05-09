@@ -158,9 +158,16 @@
 							<h4 class="text-section">Menu</h4>
 						</li>
 						
+						<li class="nav-item {{ active(['admin.delegators.*']) }}">
+							<a href="{{ route('admin.delegators.index') }}">
+								<i class="fas fa-sitemap"></i>
+								<p>Pimpinan</p>
+							</a>
+						</li>
+						
 						<li class="nav-item {{ active(['admin.participants.*']) }}">
 							<a href="{{ route('admin.participants.index') }}">
-								<i class="fas fa-users"></i>
+								<i class="fas fa-user"></i>
 								<p>Peserta</p>
 							</a>
 						</li>

@@ -27,7 +27,7 @@
                         <h4 class="card-title">Daftar Peserta Konferensi</h4>
                         <a href="{{ route('admin.participants.recap') }}" class="btn btn-success btn-round ml-auto">
                             <i class="fa fa-download mr-1"></i>
-                            Unduh Seluruh Data (.xlsx)
+                            Unduh Data Peserta (.xlsx)
                         </a>
                     </div>
                 </div>

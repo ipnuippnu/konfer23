@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Delegator;
+use App\Models\DelegatorStep;
 use App\Models\Participant;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -51,8 +52,8 @@ class DashboardController extends Controller
             'jumlah' => [
                 'pimpinan' => Delegator::count(),
                 'peserta' => $totalPeserta,
-                'membayar' => Delegator::whereHas('payment', function($q){
-                    $q->whereNotNull('accepted_at');
+                'verified' => Delegator::whereHas('steps', function($q){
+                    $q->where('step', DelegatorStep::$DITERIMA);
                 })->count()
             ],  
             'bayar' => [

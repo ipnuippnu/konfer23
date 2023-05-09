@@ -2,7 +2,8 @@ Swal = Swal.mixin({
     customClass: {
         popup: 'bg-dark text-white border border-secondary',
         confirmButton: 'btn btn-success mx-1',
-        cancelButton: 'btn btn-danger mx-1',
+        cancelButton: 'btn btn-secondary mx-1',
+        denyButton: 'btn btn-danger mx-1',
         validationMessage: 'bg-secondary text-white'
     },
     buttonsStyling: false,

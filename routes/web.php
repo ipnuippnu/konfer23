@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DelegatorController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\ParticipantController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PendaftaranController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,7 +67,35 @@ Route::group(['prefix' => sha1('YunYun'), 'as' => 'admin.'], function(){
 
         Route::get('participants/recap', [RecapController::class, 'participants'])->can('participants-recap')->name('participants.recap');
         Route::apiResource('participants', ParticipantController::class);
+
+        Route::get('delegators/recap', [RecapController::class, 'delegators'])->can('delegators-recap')->name('delegators.recap');
+        Route::apiResource('delegators', DelegatorController::class);
     });
 
 
+});
+
+
+
+//File
+Route::group(['as' => 'file.', 'prefix' => sha1('osas')], function(){
+    Route::get('sp/{filename}', function($filename){
+
+        $path = Storage::disk('surat_pengesahan')->path($filename);
+        if (!Storage::disk('surat_pengesahan')->exists($filename)) {
+            abort(404);
+        }
+        return response()->file($path);
+
+    })->can('sp-download')->name('sp');
+
+    Route::get('st/{filename}', function($filename){
+
+        $path = Storage::disk('surat_tugas')->path($filename);
+        if (!Storage::disk('surat_tugas')->exists($filename)) {
+            abort(404);
+        }
+        return response()->file($path);
+
+    })->can('st-download')->name('st');
 });
