@@ -32,7 +32,7 @@ class User extends Authenticatable
     public function avatar() : Attribute
     {
         return Attribute::make(get: function($val){
-            if(Storage::disk('public')->exists($val)) return Storage::disk('public')->url($val);
+            if($val != null && Storage::disk('public')->exists($val)) return Storage::disk('public')->url($val);
 
             return asset('img/admin-default.png');
         });
