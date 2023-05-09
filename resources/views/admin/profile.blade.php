@@ -199,7 +199,9 @@
                     });
                     let data = new FormData();
                     data.append('photo', foto);
-                    return axios.postForm('{{ route('admin.change-picture') }}', data)
+                    return axios.postForm('{{ route('admin.change-picture') }}', data).then(() => {
+                        location.href = ""
+                    })
                 }
             })
             
