@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -21,6 +24,21 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
+
+        //Super Admin
+        Gate::before(function(User $user){
+           return preg_match("/^\[('|\")\*('|\")\]$/", $user->getAttributes()['permission']); 
+        });
+
+        //Ganti Password
+        Gate::define('change-password', function(User $user, User $account){
+            return $user->id === $account->id || in_array('change-password', $user->permission);
+        });
+
+        //Ganti Foto Profil
+        Gate::define('change-picture', function(User $user, User $account){
+            return $user->id === $account->id || in_array('change-picture', $user->permission);
+        });
     }
 }

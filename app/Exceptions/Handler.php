@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -44,5 +46,14 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    protected function prepareException(Throwable $e)
+    {
+        if ($e instanceof TokenMismatchException) {
+            $e = new HttpException(419, "Halaman kadaluarsa, silahkan refresh.", $e);
+        }
+
+        return parent::prepareException($e);
     }
 }

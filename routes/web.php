@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Berkas\BerkasSuratMandat;
 use App\Http\Controllers\Berkas\BerkasSuratPengesahan;
 use App\Http\Controllers\BerkasController;
@@ -38,13 +41,26 @@ Route::group(['middleware' => ['sso', 'guest']], function() {
         return view('chatting');
     })->name('chat');
 
-    // Route::get('/huft', function(){
-    //     dd(\Sso::credential());
-    // });
-
 });
 
-// Route::redirect('a', "\/Sandaran_Hati\/", 301);
-// Route::group(['middleware' => 'auth', 'prefix' => 'Sandaran_Hati'], function(){
+Route::redirect('pasipasi', sha1('YunYun'), 301);
+Route::group(['prefix' => sha1('YunYun'), 'as' => 'admin.'], function(){
 
-// });
+    Route::middleware('guest')->group(function(){
+        Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+        Route::post('/login', [LoginController::class, 'login']);
+    });
+
+    Route::middleware('auth')->group(function(){
+        Route::get('/', DashboardController::class)->name('/');
+        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+        Route::get('/my', ProfileController::class)->name('profile');
+        Route::post('/my', [ProfileController::class, 'profileUpdate']);
+
+        Route::post('/change-password', [ProfileController::class, 'changePassword'])->can('change-password')->name('change-password');
+        Route::post('/change-picture', [ProfileController::class, 'changePicture'])->can('change-picture')->name('change-picture');
+    });
+
+
+});
