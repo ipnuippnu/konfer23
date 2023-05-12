@@ -65,12 +65,12 @@ class PaymentController extends Controller
 
 
                 activity()->performedOn($payment)->withProperties([
-                    'old_file' => $payment->bukti_transfer
+                    'old_file' => $payment->getAttributes()['bukti_transfer'],
                 ])->log('Pembayaran diterima dengan perbaikan.');
 
                 $payment->update([
                     'accepted_at' => Carbon::now(),
-                    'bukti_transfer' => $request->file('file')->store('bukti_transfer')
+                    'bukti_transfer' => $request->file('file')->store('', ['disk' => 'bukti_transfer'])
                 ]);
 
             }

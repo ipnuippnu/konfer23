@@ -90,8 +90,8 @@
                 }},
                 { data: 'participants_count'},
                 { data: 'amount', orderable: false, searchable: false, render: val => `Rp. ${val.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")},-`},
-                { searchable:false, orderable:false, render (a, b, c) {
-                    let data = `<a href="//wa.me/${c.owner.whatsapp}" target="_blank" class="btn btn-success btn-sm mx-1"><i class="flaticon-whatsapp"></i></a>`;
+                { data: 'bukti_transfer', searchable:false, orderable:false, render (a, b, c) {
+                    let data = `<a href="${a}" target="_blank" class="btn btn-secondary btn-sm mx-1"><i class="flaticon-file"></i> Berkas</a><a href="${c.owner.whatsapp}" target="_blank" class="btn btn-success btn-sm mx-1"><i class="flaticon-whatsapp"></i></a>`;
 
                     if(c.accepted_at == null){
                         data += '<button class="btn btn-primary btn-sm cek-berkas">Validasi</button>';

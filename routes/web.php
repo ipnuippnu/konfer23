@@ -101,4 +101,14 @@ Route::group(['as' => 'file.', 'prefix' => sha1('osas')], function(){
         return response()->file($path);
 
     })->can('st-download')->name('st');
+
+    Route::get('bukti_pembayaran/{filename}', function($filename){
+
+        $path = Storage::disk('bukti_transfer')->path($filename);
+        if (!Storage::disk('bukti_transfer')->exists($filename)) {
+            abort(404);
+        }
+        return response()->file($path);
+
+    })->can('bukti_pembayaran-download')->name('bukti_pembayaran');
 });
