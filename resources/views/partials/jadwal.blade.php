@@ -9,11 +9,11 @@
                 <span class="text badge badge-secondary">Rapat Pimpinan Cabang</span>
             </li>
             <li class="feed-item feed-item-primary">
-                <time class="date" datetime="4-10">10 April - 10 Mei 2023</time>
+                <time class="date" datetime="4-10">10 April - 13 Mei 2023</time>
                 <span class="text badge badge-primary">Pendaftaran Peserta Konferensi</span>
             </li>
             <li class="feed-item feed-item-danger">
-                <time class="date" datetime="4-10">10 April - 17 Mei 2023</time>
+                <time class="date" datetime="4-10">10 - 31 Mei 2023</time>
                 <span class="text badge badge-danger">Validasi Berkas Peserta oleh Panitia</span>
             </li>
             <li class="feed-item feed-item-success pb-0">

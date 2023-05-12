@@ -1,10 +1,10 @@
 @extends('admin._template')
-@section('title', 'Pimpinan')
+@section('title', 'Pembayaran')
 
 @section('content')
 <div class="page-inner">
     <div class="page-header">
-        <h4 class="page-title">Pimpinan</h4>
+        <h4 class="page-title">Pembayaran</h4>
         <ul class="breadcrumbs">
             <li class="nav-home">
                 <a href="{{ route('admin./') }}">
@@ -15,7 +15,7 @@
                 <i class="flaticon-right-arrow"></i>
             </li>
             <li class="nav-item">
-                <a href="{{ route('admin.delegators.index') }}">Pimpinan</a>
+                <a href="{{ route('admin.payments.index') }}">Pembayaran</a>
             </li>
         </ul>
     </div>
@@ -24,7 +24,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex align-items-center">
-                        <h4 class="card-title">Daftar Peserta Konferensi</h4>
+                        <h4 class="card-title">Daftar Status Pembayaran</h4>
                         <a href="{{ route('admin.delegators.recap') }}" class="btn btn-success btn-round ml-auto">
                             <i class="fa fa-download mr-1"></i>
                             Unduh Data Pimpinan (.xlsx)
@@ -38,20 +38,20 @@
                             <thead>
                                 <tr>
                                     <th style="width: 10%">Status</th>
-                                    <th>Nama Pimpinan</th>
-                                    <th>Revisi</th>
-                                    <th>Berkas</th>
-                                    <th>Peserta</th>
+                                    <th>Koordinator</th>
+                                    <th>Anggota</th>
+                                    <th>Jumlah Peserta</th>
+                                    <th>Total</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Status</th>
-                                    <th>Nama Pimpinan</th>
-                                    <th>Revisi</th>
-                                    <th>Berkas</th>
-                                    <th>Peserta</th>
+                                    <th>Koordinator</th>
+                                    <th>Anggota</th>
+                                    <th>Jumlah Peserta</th>
+                                    <th>Total</th>
                                     <th>Aksi</th>
                                 </tr>
                             </tfoot>
@@ -73,30 +73,27 @@
             serverSide: true,
             ajax: "",
             columns: [
-                { data: 'step.info', searchable:false, orderable:false, render (data, type, row){
-                    let color = null;
-                    if(row.step.step == {{ DelegatorStep::$DIAJUKAN }}) color = 'primary';
+                { data: 'accepted_at', render (data, type, row){
+                    let color = 'warning';
+                    if(data != null) color = 'success';
 
-                    else if(row.step.step == {{ DelegatorStep::$DITOLAK }}) color = 'warning';
-
-                    else if(row.step.step == {{ DelegatorStep::$DIBAYAR }}) color = 'secondary';
-
-                    else if(row.step.step == {{ DelegatorStep::$DIBLOKIR }}) color = 'danger';
-
-                    return `<span class="badge ${color ? `badge-${color}` : ''}">${data}</span>`
+                    return `<span class="badge ${color ? `badge-${color}` : ''}">${data == null ? `Perlu Verif.` : 'Selesai'}</span>`
                 } },
-                { data: 'name', render: (val, type, row) => {
-                    return `<div class="mb-1">${val}</div>` + `<span class="badge">${row.address_code}</span>`
+                { data: 'owner.name'},
+                { data: 'owner.delegators.name', orderable: false, searchable: false, render(data, type, row){
+                    return (row.delegators.reduce((a, v) => {
+                        let current = v.id == row.owner.id ? null : v.name ;
+                        
+                        return a === false ? (current ?? '') : (a + (current ? (', ' + current) : ''))
+
+                    } , false))
                 }},
-                { data: 'attempt', render: (a) =>  `${--a}x`},
-                { data: 'id', searchable:false, orderable:false, render(val, type, row){
-                    return `<div class="d-flex"><a target="_blank" href="${row.surat_pengesahan}" class="btn btn-sm btn-info mr-1"><abbr title="Surat Pengesahan">SP</abbr></a>` + `<a target="_blank" href="${row.surat_tugas}" class="btn btn-sm btn-secondary ml-1"><abbr title="Surat Tugas/Mandat">ST</abbr></a></div>`
-                } },
-                { data: 'participants_count', searchable: false, orderable: false, render: v => `${v} peserta` },
-                { data: 'address_code', searchable:false, orderable:false, render (a, b, c) {
-                    let data = `<a href="//wa.me/${c.whatsapp}" target="_blank" class="btn btn-success btn-sm mx-1"><i class="flaticon-whatsapp"></i></a>`;
+                { data: 'participants_count'},
+                { data: 'amount', orderable: false, searchable: false, render: val => `Rp. ${val.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")},-`},
+                { searchable:false, orderable:false, render (a, b, c) {
+                    let data = `<a href="//wa.me/${c.owner.whatsapp}" target="_blank" class="btn btn-success btn-sm mx-1"><i class="flaticon-whatsapp"></i></a>`;
 
-                    if(parseInt(c.step.step) == {{ DelegatorStep::$DIAJUKAN }}){
+                    if(c.accepted_at == null){
                         data += '<button class="btn btn-primary btn-sm cek-berkas">Validasi</button>';
                     }
 
@@ -107,13 +104,13 @@
             createdRow(row, data, dataIndex){
                 $(row).find('.cek-berkas').click(function(){
                     Swal.fire({
-                        title: 'Validasi Berkas',
-                        html: `Apakah berkas & data yang dilampirkan oleh: <div class="d-block my-2 h1 font-weight-bolder">${data.name}</div> sudah sah untuk mendaftar?`,
-                        confirmButtonText: 'Sesuai, Lanjutkan!',
-                        denyButtonText: 'Tidak Sesuai, Tolak!',
+                        title: 'Validasi Pembayaran',
+                        html: `Pastikan antara bukti pendaftaran dan jumlah tagihan sudah sesuai! Pastikan juga pembayaran sudah masuk di rekening Panitia (BRI: Alfiah Yunia Pratama)!`,
+                        confirmButtonText: 'Sesuai, Verifikasi!',
+                        denyButtonText: 'Tidak Sesuai, Perbaiki!',
                         showDenyButton: true
                     }).then(result => {
-                        let aksi = myData => axios.put('{{ route('admin.delegators.store') }}/' + data.id, myData).then(e => {
+                        let aksi = myData => axios.postForm('{{ route('admin.payments.store') }}/' + data.id, myData).then(e => {
                             if(e.status === 204)
                             {
                                 Swal.fire({
@@ -131,15 +128,25 @@
                         })
 
                         if(result.isConfirmed){
-                            return aksi({'action': 'accept'});
+                            let data = new FormData();
+                            data.append('_method', 'put')
+                            data.append('action', 'accept');
+                            return aksi(data);
                         }
                         else if(result.isDenied){
                             Swal.fire({
-                                title: 'Tolak Data',
-                                text: 'Berikan alasan penolakan anda terhadap data yang diberikan',
-                                input: 'text',
+                                title: 'Perbaiki Data',
+                                text: 'Silahkan upload bukti pembayaran yang valid',
+                                input: 'file',
+                                inputAttributes: {
+                                    'accept': 'application/pdf,image/*'
+                                },
                                 preConfirm(val){
-                                    return aksi({'action': 'reject', 'reason': val})
+                                    let data = new FormData();
+                                    data.append('_method', 'put')
+                                    data.append('action', 'reject');
+                                    data.append('file', val)
+                                    return aksi(data)
                                 }
                             })
                         }

@@ -84,10 +84,14 @@ class PendaftaranController extends Controller
             abort(403, 'Permintaan ditolak karena kondisi sedang tidak diizinkan melakukan perubahan data.');
         }
 
+        // dd($delegator->participants);
+
         //SoftDelete Partisipan
-        if(!$delegator->participants()->exists())
-            foreach($participants as $data) 
-                $delegator->participants()->create($data);
+        if($delegator->participants()->exists())
+            $delegator->participants()->delete();
+
+        foreach($participants as $data) 
+            $delegator->participants()->create($data);
 
         $delegator->steps()->create([
             'step' => DelegatorStep::$DIAJUKAN

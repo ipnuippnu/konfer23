@@ -58,7 +58,7 @@
     </div>
     <script src="{{ asset('js/plugin/axios/axios.min.js') }}"></script>
     <script src="{{ asset('js/plugin/sweetalert2/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('js/yunyun.js') }}"></script>
+    <script src="{{ asset('js/yunyun-2.js') }}"></script>
     <script>
 
         document.querySelector('form').addEventListener('submit', function(e) {

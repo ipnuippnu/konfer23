@@ -155,7 +155,7 @@
 							<span class="sidebar-mini-icon">
 								<i class="fa fa-ellipsis-h"></i>
 							</span>
-							<h4 class="text-section">Menu</h4>
+							<h4 class="text-section">Pendaftaran</h4>
 						</li>
 						
 						<li class="nav-item {{ active(['admin.delegators.*']) }}">
@@ -169,6 +169,13 @@
 							<a href="{{ route('admin.participants.index') }}">
 								<i class="fas fa-user"></i>
 								<p>Peserta</p>
+							</a>
+						</li>
+						
+						<li class="nav-item {{ active(['admin.payments.*']) }}">
+							<a href="{{ route('admin.payments.index') }}">
+								<i class="fas fa-dollar-sign"></i>
+								<p>Pembayaran</p>
 							</a>
 						</li>
 

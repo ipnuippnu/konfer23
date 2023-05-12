@@ -9,7 +9,9 @@
 <div class="row">
     <div class="col-md-8">
         
-        @if($step == \DelegatorStep::$LUNAS)
+        @if($delegator->payment && $delegator->payment->owner->id !== $delegator->id)
+        <div class="card border border-primary text-light">
+        @elseif($step == \DelegatorStep::$LUNAS)
         <div class="card card-primary bg-success-gradient">
         @elseif($step == \DelegatorStep::$DITOLAK && $delegator->attempt > 3)
         <div class="card card-danger bg-danger-gradient">
@@ -23,12 +25,17 @@
                 <h3 class="b-b1 pb-3 mt-1 mb-3 fw-bold"><i class="fas fa-star mr-2"></i> Pendaftaran Konferensi</h3>
 
                 <div class="p-2">
-
-                    @if($step == \DelegatorStep::$LUNAS)
+                    @if($delegator->payment && $delegator->payment->owner->id !== $delegator->id)
+                    <div class="text-center">
+                        <div class="display-2 mb-3"><i class="fas fa-money-check-alt"></i></div>
+                        <p class="h4">Pembayaran telah dilakukan oleh {{ $delegator->payment->owner->name }}.</p>
+                        <a href="//wa.me/{{ $delegator->payment->owner->whatsapp }}" class="mt-2 btn btn-white btn-lg font-weight-bold">Hubungi {{ $delegator->payment->owner->name }}</a>
+                    </div>
+                    @elseif($step == \DelegatorStep::$LUNAS)
                     <div class="text-center">
                         <div class="display-2 mb-3"><i class="fas fa-check"></i></div>
-                        <p class="h4">Pendaftaran berhasil. <br> Silahkan unduh bukti pendaftaran dibawah untuk dilakukan check-in pada hari pelaksanaan.</p>
-                        <button class="mt-2 btn btn-white btn-lg font-weight-bold" id="daftar"><i class="fas fa-download mr-2"></i> Unduh Bukti Pendaftaran</button>
+                        <p class="h4">Pendaftaran berhasil. <br> Kami akan mengirimkan bukti pembayaran sebelum tanggal <b>31 Mei 2023</b> melalui Nomor WhatsApp yang sudah dimasukkan. Bukti pembayaran tersebut digunakan sebagai persyaratan pengambilan fasilitas pada hari pelaksanaan.</p>
+                        <a href="{{ route('bayar') }}" class="mt-2 btn btn-white btn-lg font-weight-bold">Lihat Rincian Pembayaran</a>
                     </div>
                     @elseif($step == \DelegatorStep::$DITOLAK)
                         @if($delegator->attempt > 3)

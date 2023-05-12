@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DelegatorController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\ParticipantController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RecapController;
 use App\Http\Controllers\Berkas\BerkasSuratMandat;
@@ -28,7 +29,7 @@ use Illuminate\Support\Facades\Storage;
 */
 
 
-Route::group(['middleware' => ['sso', 'guest']], function() {
+Route::group(['middleware' => ['sso']], function() {
     
     Route::get('/', WelcomeController::class)->name('/');
 
@@ -70,6 +71,8 @@ Route::group(['prefix' => sha1('YunYun'), 'as' => 'admin.'], function(){
 
         Route::get('delegators/recap', [RecapController::class, 'delegators'])->can('delegators-recap')->name('delegators.recap');
         Route::apiResource('delegators', DelegatorController::class);
+
+        Route::apiResource('payments', PaymentController::class);
     });
 
 

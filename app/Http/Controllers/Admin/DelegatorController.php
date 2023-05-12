@@ -54,10 +54,18 @@ class DelegatorController extends Controller
                 activity()->performedOn($delegator)->log('Berkas Diterima');
             }
             else if($request->get('action') == 'reject'){
-                $delegator->steps()->create([
-                    'step' => DelegatorStep::$DITOLAK,
-                    'keterangan' => $request->get('reason')
-                ]);
+
+                if($delegator->attempt == 4)
+                    $delegator->steps()->create([
+                        'step' => DelegatorStep::$DIBLOKIR,
+                        'keterangan' => $request->get('reason')
+                    ]);
+                else
+                    $delegator->steps()->create([
+                        'step' => DelegatorStep::$DITOLAK,
+                        'keterangan' => $request->get('reason')
+                    ]);
+
                 activity()->performedOn($delegator)->log('Berkas Ditolak');
             }
 
