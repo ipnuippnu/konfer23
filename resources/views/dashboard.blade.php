@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col-md-8">
         
-        @if($delegator->payment && $delegator->payment->owner->id !== $delegator->id)
+        @if(isset($delegator->payment) && $delegator->payment->owner->id !== $delegator->id)
         <div class="card border border-primary text-light">
         @elseif($step == \DelegatorStep::$LUNAS)
         <div class="card card-primary bg-success-gradient">
@@ -25,7 +25,7 @@
                 <h3 class="b-b1 pb-3 mt-1 mb-3 fw-bold"><i class="fas fa-star mr-2"></i> Pendaftaran Konferensi</h3>
 
                 <div class="p-2">
-                    @if($delegator->payment && $delegator->payment->owner->id !== $delegator->id)
+                    @if(isset($delegator->payment) && $delegator->payment->owner->id !== $delegator->id)
                     <div class="text-center">
                         <div class="display-2 mb-3"><i class="fas fa-money-check-alt"></i></div>
                         <p class="h4">Pembayaran telah dilakukan oleh {{ $delegator->payment->owner->name }}.</p>

@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Storage;
 */
 
 
-Route::group(['middleware' => ['sso']], function() {
+Route::group(['middleware' => ['sso', 'tutup']], function() {
     
     Route::get('/', WelcomeController::class)->name('/');
 
