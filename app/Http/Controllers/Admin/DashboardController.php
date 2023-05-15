@@ -16,31 +16,44 @@ class DashboardController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $totalPeserta = Participant::count();
+        $totalPeserta = Participant::whereHas('delegator', fn($q1) => $q1->whereHas('step', fn($q2) => $q2->where('step', DelegatorStep::$LUNAS)))->count();
 
         $perKecamatan = Cache::remember('perKecamatan', 60, function() use($totalPeserta) {
-            $data = Delegator::select('id', 'name', 'address_code')->withCount('participants')->orderByRaw('CHAR_LENGTH(address_code)')->get()->groupBy(function($item){
-                return substr($item['address_code'],0,8);
-            })->map(function(Collection $item) use($totalPeserta) {
-                return $item->reduce(function($carry, $item) use($totalPeserta)
-                {
-                    if($carry == null){
-                        $warna = sprintf("#%02x%02x%02x", rand(0, 255), rand(0, 255), rand(0, 255));
-                        $carry = [
-                            'address_code' => $item['address_code'],
-                            'name' => preg_replace("/^(\w*)\s(\w*)\s(.*)/", "Kecamatan $3", $item['name']),
-                            'total' => 0,
-                            'warna' => $warna
-                        ];
-                    }
+
+            $data = collect(config('konfer.kecamatan'))->map(function($name, $code) use($totalPeserta) {
+
+                $warna = sprintf("#%02x%02x%02x", rand(0, 255), rand(0, 255), rand(0, 255));
+                return [
+                    'total' => $total = Delegator::where('address_code', 'LIKE', "{$code}%")->whereHas('step', fn($q) => $q->where('step', DelegatorStep::$LUNAS))->withCount('participants')->get()->sum('participants_count'),
+                    'persentase' => $total == 0 ? 0 : $total / $totalPeserta * 100,
+                    'warna' => $warna,
+                    'name' => "Kecamatan {$name}"
+                ];
+
+            })->sortByDesc('total')->values();
+
+            // $data = Delegator::select('id', 'name', 'address_code')->withCount('participants')->orderByRaw('CHAR_LENGTH(address_code)')->get()->groupBy(function($item){
+            //     return substr($item['address_code'],0,8);
+            // })->map(function(Collection $item) use($totalPeserta) {
+            //     return $item->reduce(function($carry, $item) use($totalPeserta)
+            //     {
+            //         if($carry == null){
+            //             $warna = sprintf("#%02x%02x%02x", rand(0, 255), rand(0, 255), rand(0, 255));
+            //             $carry = [
+            //                 'address_code' => $item['address_code'],
+            //                 'name' => preg_replace("/^(\w*)\s(\w*)\s(.*)/", "Kecamatan $3", $item['name']),
+            //                 'total' => 0,
+            //                 'warna' => $warna
+            //             ];
+            //         }
     
                     
-                    $carry['total'] += $item['participants_count'];
-                    $carry['persentase'] = round($carry['total'] / $totalPeserta * 100, 1);
+            //         $carry['total'] += $item['participants_count'];
+            //         $carry['persentase'] = round($carry['total'] / $totalPeserta * 100, 1);
     
-                    return $carry;
-                });
-            })->sortByDesc('total')->values();
+            //         return $carry;
+            //     });
+            // })->sortByDesc('total')->values();
 
             return [
                 'data' => $data,
