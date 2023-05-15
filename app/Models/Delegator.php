@@ -47,4 +47,12 @@ class Delegator extends Model
             get: fn($val) => route('file.st', [$val])
         );
     }
+
+    protected static function booted()
+    {
+        static::deleting(function(Delegator $delegator){
+            $delegator->participants()->delete();
+            $delegator->payment()->delete();
+        });
+    }
 }
