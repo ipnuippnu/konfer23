@@ -30,7 +30,7 @@ return new class extends Migration
             $table->dropColumn('gender');
             $table->dropColumn('jabatan');
             $table->dropColumn('permission');
-            $table->dropColumn('whatsapp');
+            $table->dropColumn('phone');
         });
     }
 };

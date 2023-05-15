@@ -32,29 +32,6 @@ class DashboardController extends Controller
 
             })->sortByDesc('total')->values();
 
-            // $data = Delegator::select('id', 'name', 'address_code')->withCount('participants')->orderByRaw('CHAR_LENGTH(address_code)')->get()->groupBy(function($item){
-            //     return substr($item['address_code'],0,8);
-            // })->map(function(Collection $item) use($totalPeserta) {
-            //     return $item->reduce(function($carry, $item) use($totalPeserta)
-            //     {
-            //         if($carry == null){
-            //             $warna = sprintf("#%02x%02x%02x", rand(0, 255), rand(0, 255), rand(0, 255));
-            //             $carry = [
-            //                 'address_code' => $item['address_code'],
-            //                 'name' => preg_replace("/^(\w*)\s(\w*)\s(.*)/", "Kecamatan $3", $item['name']),
-            //                 'total' => 0,
-            //                 'warna' => $warna
-            //             ];
-            //         }
-    
-                    
-            //         $carry['total'] += $item['participants_count'];
-            //         $carry['persentase'] = round($carry['total'] / $totalPeserta * 100, 1);
-    
-            //         return $carry;
-            //     });
-            // })->sortByDesc('total')->values();
-
             return [
                 'data' => $data,
                 'updated_at' => Carbon::now()
