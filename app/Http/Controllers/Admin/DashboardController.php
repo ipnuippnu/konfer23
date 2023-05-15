@@ -16,7 +16,7 @@ class DashboardController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $totalPeserta = Participant::whereHas('delegator', fn($q1) => $q1->whereHas('step', fn($q2) => $q2->where('step', DelegatorStep::$LUNAS)))->count();
+        $totalPeserta = Participant::count();
 
         $perKecamatan = Cache::remember('perKecamatan', 60, function() use($totalPeserta) {
 
@@ -24,8 +24,8 @@ class DashboardController extends Controller
 
                 $warna = sprintf("#%02x%02x%02x", rand(0, 255), rand(0, 255), rand(0, 255));
                 return [
-                    'total' => $total = Delegator::where('address_code', 'LIKE', "{$code}%")->whereHas('step', fn($q) => $q->where('step', DelegatorStep::$LUNAS))->withCount('participants')->get()->sum('participants_count'),
-                    'persentase' => $total == 0 ? 0 : $total / $totalPeserta * 100,
+                    'total' => $total = Delegator::where('address_code', 'LIKE', "{$code}%")->withCount('participants')->get()->sum('participants_count'),
+                    'persentase' => $total == 0 ? 0 : round($total / $totalPeserta * 100, 1),
                     'warna' => $warna,
                     'name' => "Kecamatan {$name}"
                 ];
