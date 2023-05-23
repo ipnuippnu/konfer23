@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BroadcastController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DelegatorController;
 use App\Http\Controllers\Admin\LoginController;
@@ -66,13 +67,18 @@ Route::group(['prefix' => sha1('YunYun'), 'as' => 'admin.'], function(){
         Route::post('/change-password', [ProfileController::class, 'changePassword'])->can('change-password')->name('change-password');
         Route::post('/change-picture', [ProfileController::class, 'changePicture'])->can('change-picture')->name('change-picture');
 
+        //Pendaftaran
         Route::get('participants/recap', [RecapController::class, 'participants'])->can('participants-recap')->name('participants.recap');
         Route::apiResource('participants', ParticipantController::class);
-
         Route::get('delegators/recap', [RecapController::class, 'delegators'])->can('delegators-recap')->name('delegators.recap');
         Route::apiResource('delegators', DelegatorController::class);
-
         Route::apiResource('payments', PaymentController::class);
+
+        //Tools
+        Route::get('broadcast', BroadcastController::class)->name('broadcast');
+        Route::post('broadcast/unpaids', [BroadcastController::class, 'sendUnpaids'])->name('broadcast.unpaids');
+        Route::post('broadcast/revisions', [BroadcastController::class, 'sendRevisions'])->name('broadcast.revisions');
+
     });
 
 

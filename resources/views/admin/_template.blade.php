@@ -179,6 +179,20 @@
 							</a>
 						</li>
 
+						<li class="nav-section">
+							<span class="sidebar-mini-icon">
+								<i class="fa fa-ellipsis-h"></i>
+							</span>
+							<h4 class="text-section">Alat</h4>
+						</li>
+						
+						<li class="nav-item {{ active('admin.broadcast') }}">
+							<a href="{{ route('admin.broadcast') }}">
+								<i class="fas fa-broadcast-tower"></i>
+								<p>Broadcast</p>
+							</a>
+						</li>
+
 					</ul>
 				</div>
 			</div>

@@ -25,10 +25,10 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <h4 class="card-title">Daftar Status Pembayaran</h4>
-                        <a href="{{ route('admin.delegators.recap') }}" class="btn btn-success btn-round ml-auto">
+                        {{-- <a href="{{ route('admin.delegators.recap') }}" class="btn btn-success btn-round ml-auto">
                             <i class="fa fa-download mr-1"></i>
                             Unduh Data Pimpinan (.xlsx)
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
                 <div class="card-body">

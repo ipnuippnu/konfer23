@@ -52,7 +52,7 @@ class Delegator extends Model
     {
         static::deleting(function(Delegator $delegator){
             $delegator->participants()->delete();
-            $delegator->payment()->delete();
+            // $delegator->payment()->delete();
         });
     }
 }
