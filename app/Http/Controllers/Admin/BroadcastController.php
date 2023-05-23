@@ -59,7 +59,7 @@ class BroadcastController extends Controller
     public function sendUnpaids()
     {
         /** @var Collection $unpaided */
-        $unpaided = Delegator::whereNull('payment_id')->get();
+        $unpaided = Delegator::whereNull('payment_id')->get()->groupBy('whatsapp');
 
         $unpaided->each( function(Collection $delegators, $phone) {
 
@@ -83,9 +83,7 @@ class BroadcastController extends Controller
     public function sendRevisions()
     {
         /** @var Collection $unpaided */
-        $unpaided = Delegator::whereDoesntHave('step', fn($q) => $q->where('step', DelegatorStep::$DITERIMA))->get();
-
-        dd($unpaided->map(fn($a) => $a->name));
+        $unpaided = Delegator::whereDoesntHave('step', fn($q) => $q->where('step', DelegatorStep::$DITERIMA))->get()->groupBy('whatsapp');
 
         $unpaided->each( function(Collection $delegators, $phone) {
 
