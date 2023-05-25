@@ -80,11 +80,11 @@
                     return `<span class="badge ${color ? `badge-${color}` : ''}">${data == null ? `Perlu Verif.` : 'Selesai'}</span>`
                 } },
                 { data: 'owner.name'},
-                { data: 'owner.delegators.name', orderable: false, searchable: false, render(data, type, row){
+                { data: 'anggota', orderable: false, render(data, type, row){
                     return (row.delegators.reduce((a, v) => {
                         let current = v.id == row.owner.id ? null : v.name ;
                         
-                        return a === false ? (current ?? '') : (a + (current ? (', ' + current) : ''))
+                        return a == false ? (current ?? '') : (a + (current ? (', ' + current) : ''))
 
                     } , false))
                 }},

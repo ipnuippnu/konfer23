@@ -27,7 +27,7 @@ class PembayaranController extends Controller
 
         $data = [
             'delegator' => $me,
-            'partners' => Delegator::where('address_code', $me->address_code)->orWhere('address_code', 'LIKE', $me->address_code . '%')->whereHas('steps', fn($q) => $q->where('step', DelegatorStep::$DITERIMA))->get()->map(function(Delegator $delegator) use($me) {
+            'partners' => Delegator::where('address_code', 'LIKE', $me->address_code . '%')->whereNull('payment_id')->get()->map(function(Delegator $delegator) use($me) {
                 return [
                     "id" => $delegator->id, "name" => $delegator->name, "members" => $jumlah = $delegator->participants()->count(), "price" => (60000 * $jumlah), "is_me" => $delegator->id == $me->id
                 ];

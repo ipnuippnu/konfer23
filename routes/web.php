@@ -8,13 +8,10 @@ use App\Http\Controllers\Admin\ParticipantController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RecapController;
-use App\Http\Controllers\Berkas\BerkasSuratMandat;
-use App\Http\Controllers\Berkas\BerkasSuratPengesahan;
-use App\Http\Controllers\BerkasController;
-use App\Http\Controllers\LocalController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PendaftaranController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -118,3 +115,15 @@ Route::group(['as' => 'file.', 'prefix' => sha1('osas')], function(){
 
     })->can('bukti_pembayaran-download')->name('bukti_pembayaran');
 });
+
+
+if(App::environment() == 'local')
+{
+
+    Route::get('test', function(){
+       
+        
+
+    });
+
+}

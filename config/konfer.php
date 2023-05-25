@@ -23,4 +23,10 @@ return [
 
     'wa_api' => 'http://203.130.251.21:3000/send',
 
+    'rekening' => [
+        'name' => 'Alfiah Yunia Pratama',
+        'brand' => 'BRI',
+        'no' => '7414-01-010463-53-7'
+    ]
+
 ];

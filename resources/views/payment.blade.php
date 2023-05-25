@@ -37,7 +37,7 @@
                             <div class="alert alert-info text-dark"><b class="h4 font-weight-bold mb-2 d-block"><i class="fas fa-info"></i> INFORMASI! </b>
                                 Silahkan melakukan pembayaran sejumlah total dibawah melalui transfer pada tujuan rekening berikut:
                                 <ul>
-                                    <li> <span class="badge badge-primary">BRI</span> a/n <b>Alfiah Yunia Pratama</b>: 0110-01-001267-52-1</li>
+                                    <li> <span class="badge badge-primary">{{ config('konfer.rekening.brand') }}</span> a/n <b>{{ config('konfer.rekening.name') }}</b>: {{ config('konfer.rekening.no') }}</li>
                                 </ul>
                                 Kemudian upload bukti pembayaran pada isian yang sudah disediakan.
                             </div>
@@ -199,7 +199,12 @@
                 data = JSON.parse(atob(data))
                 $('#members :selected').remove()
                 selected_partners.push(data["id"])
-                Swal.fire('Informasi!', data["name"] + ' telah ditambahkan.', 'info')
+                $.notify({
+                    icon: 'flaticon-check',
+                    title: 'Berhasil!',
+                    message: data["name"] + ' telah ditambahkan.',
+                }, {type: 'success'})
+                // Swal.fire('Informasi!', , 'info')
                 print_members(data)
 
             } catch (error) {
