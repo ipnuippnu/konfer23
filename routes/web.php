@@ -142,7 +142,7 @@ Route::middleware('auth')->group(function(){
     
      Route::get('idcard', function(){
 
-        event(new UpdateAllIdCardEvent(to: Carbon::parse('2023-05-26 15:00:00')));
+        event(new UpdateAllIdCardEvent(null, Carbon::parse('2023-05-26 15:00:00')));
         return response()->json([
             'message' => 'Berhasil! Pastikan Queue:Work sudah berjalan'
         ]);
