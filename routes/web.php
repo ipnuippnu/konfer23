@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 /*
 |--------------------------------------------------------------------------
