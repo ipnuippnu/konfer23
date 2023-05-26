@@ -13,7 +13,7 @@
 	<script>
 		WebFont.load({
 			google: {"families":["Lato:300,400,700,900"]},
-			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['{{ asset("css/fonts.min.css") }}']},
+			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['{{ asset("css/fonts.css?v2") }}', '{{ asset("css/fa.min.css") }}']},
 			active: function() {
 				sessionStorage.fonts = true;
 			}
@@ -190,6 +190,13 @@
 							<a href="{{ route('admin.broadcast') }}">
 								<i class="fas fa-broadcast-tower"></i>
 								<p>Broadcast</p>
+							</a>
+						</li>
+						
+						<li class="nav-item {{ active(['admin.guests.*']) }}">
+							<a href="{{ route('admin.guests.index') }}">
+								<i class="fas fa-mail-bulk"></i>
+								<p>Undangan</p>
 							</a>
 						</li>
 

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\UpdateAllIdCardEvent;
+use App\Listeners\UpdateAllIdCardListener;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -19,6 +21,10 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+
+        UpdateAllIdCardEvent::class => [
+            UpdateAllIdCardListener::class
         ],
     ];
 

@@ -1,19 +1,30 @@
 <?php
 
+use App\Events\UpdateAllIdCardEvent;
 use App\Http\Controllers\Admin\BroadcastController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DelegatorController;
+use App\Http\Controllers\Admin\GuestController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\ParticipantController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RecapController;
+use App\Http\Controllers\Admin\TestQrController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PendaftaranController;
+use App\Jobs\ParticipantCardGeneratorJob;
+use App\Models\Delegator;
+use App\Models\DelegatorStep;
+use App\Models\Guest;
+use App\Models\Participant;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,10 +82,15 @@ Route::group(['prefix' => sha1('YunYun'), 'as' => 'admin.'], function(){
         Route::apiResource('delegators', DelegatorController::class);
         Route::apiResource('payments', PaymentController::class);
 
-        //Tools
+        // /*!SECTION Tools */
+
+        //Broadcast
         Route::get('broadcast', BroadcastController::class)->name('broadcast');
         Route::post('broadcast/unpaids', [BroadcastController::class, 'sendUnpaids'])->name('broadcast.unpaids');
         Route::post('broadcast/revisions', [BroadcastController::class, 'sendRevisions'])->name('broadcast.revisions');
+
+        //Undangan
+        Route::apiResource('guests', GuestController::class);
 
     });
 
@@ -117,13 +133,28 @@ Route::group(['as' => 'file.', 'prefix' => sha1('osas')], function(){
 });
 
 
-if(App::environment() == 'local')
-{
+Route::middleware('auth')->group(function(){
+    /**
+     * 
+     * NOTE: DARURAT TAPI TETAP BUTUH AUTH
+     * 
+     */
+    
+     Route::get('idcard', function(){
 
-    Route::get('test', function(){
-       
-        
+        event(new UpdateAllIdCardEvent(to: Carbon::parse('2023-05-26 15:00:00')));
+        return response()->json([
+            'message' => 'Berhasil! Pastikan Queue:Work sudah berjalan'
+        ]);
 
-    });
+     });
 
-}
+});
+
+
+/**
+ * 
+ * !!DARURAT TIDAK ADA AUTH
+ * 
+ */
+Route::apiResource('qr', TestQrController::class);

@@ -54,6 +54,12 @@ return [
             'throw' => false,
         ],
 
+        'participants_card' => [
+            'driver' => 'local',
+            'root' => storage_path('app/participants_card'),
+            'throw' => false,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

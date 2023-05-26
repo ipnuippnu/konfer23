@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Code;
+use App\Traits\HasCode;
 
 class Delegator extends Model
 {
-    use HasFactory, SoftDeletes, Uuids;
+    use HasFactory, SoftDeletes, Uuids, HasCode;
 
     protected $guarded = [];
 
@@ -55,4 +57,5 @@ class Delegator extends Model
             // $delegator->payment()->delete();
         });
     }
+
 }

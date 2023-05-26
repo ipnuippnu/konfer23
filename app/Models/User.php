@@ -17,16 +17,22 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Models\Code;
+use App\Traits\HasCode;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, Uuids, CausesActivity, LogsActivity, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, Uuids, CausesActivity, LogsActivity, SoftDeletes, HasCode;
 
     protected $guarded = ['id'];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
         'permission' => 'json'
+    ];
+
+    protected $hidden = [
+        'password', 'remember_token'
     ];
 
     public function avatar() : Attribute
