@@ -34,11 +34,11 @@ class GuestController extends Controller
 
         DB::beginTransaction();
         $result = Guest::create([
-            'name' => $request->get('name'),
-            'jabatan' => $request->get('jabatan'),
-            'address' => $request->get('alamat'),
-            'type' => $request->get('type'),
-            'keterangan' => $request->get('keterangan'),
+            'name' => trim($request->get('name')),
+            'jabatan' => trim($request->get('jabatan')),
+            'address' => trim($request->get('alamat')),
+            'type' => trim($request->get('type')),
+            'keterangan' => trim($request->get('keterangan')),
         ])->name;
         DB::commit();
 
