@@ -25,9 +25,9 @@ class GuestController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|regex:/^([-a-zA-Z0-9\.,\' ]*)$/',
-            'jabatan' => 'nullable|regex:/^([-a-zA-Z0-9\.,\' ]*)$/',
-            'alamat' => 'nullable|regex:/^([-a-zA-Z0-9\.,\' ]*)$/',
+            'name' => 'required|string',
+            'jabatan' => 'nullable|string',
+            'alamat' => 'nullable|string',
             'keterangan' => 'nullable|string',
             'type' => 'required|in:vip,vvip'
         ]);
