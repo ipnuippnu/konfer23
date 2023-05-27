@@ -16,7 +16,10 @@ class GuestController extends Controller
     {
         if($request->ajax()) return datatables()->eloquent(Guest::with('code'))->editColumn('created_at', fn($data) => $data->created_at->format('Y-m-d H:i:s'))->toJson();
         
-        return view('admin.guests');
+        return view('admin.guests', [
+            'vip' => Guest::whereType('vip')->count(),
+            'vvip' => Guest::whereType('vvip')->count()
+        ]);
     }
 
     /**

@@ -22,11 +22,17 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header py-2">
                     <div class="d-flex align-items-center">
                         <h4 class="card-title">Daftar Tamu Undangan</h4>
-                        <button data-toggle="modal" data-target="#myModal" href="{{ route('admin.delegators.recap') }}" class="btn btn-success btn-round ml-3">
+                        <button data-toggle="modal" data-target="#myModal" href="{{ route('admin.delegators.recap') }}" class="btn btn-success btn-round ml-3 ">
                             <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="btn btn-outline-success btn-round ml-auto ">
+                            VIP: {{ $vip }}
+                        </button>
+                        <button class="btn btn-outline-danger btn-round ml-2 ">
+                            VVIP: {{ $vvip }}
                         </button>
                     </div>
                 </div>
