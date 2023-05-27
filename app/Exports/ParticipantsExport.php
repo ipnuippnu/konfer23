@@ -15,7 +15,7 @@ class ParticipantsExport implements FromCollection, WithHeadings, WithEvents
     */
     public function collection()
     {
-        return Participant::select('participants.id', 'participants.name', 'delegators.name as delegasi_asal', 'delegators.address_code as delegasi_code', 'born_place', 'born_date', 'participants.created_at', 'participants.jabatan')->join('delegators', 'delegators.id', '=', 'participants.delegator_id')->get()->sortBy(function($item){
+        return Participant::select('participants.id', 'participants.name', 'delegators.banom', 'delegators.name as delegasi_asal', 'delegators.address_code as delegasi_code', 'born_place', 'born_date', 'participants.created_at', 'participants.jabatan')->join('delegators', 'delegators.id', '=', 'participants.delegator_id')->get()->sortBy(function($item){
 
             //Diurutkan berdasarkan address code
             return str_pad($item->delegasi_code, 13, '.0000', STR_PAD_RIGHT);
@@ -25,7 +25,7 @@ class ParticipantsExport implements FromCollection, WithHeadings, WithEvents
 
     public function headings(): array
     {
-        return ['ID', 'Nama Lengkap', 'Asal Delegasi', 'Kode Alamat', 'Tempat Lahir', 'Tanggal Lahir', 'Terdaftar Pada', 'Jabatan'];
+        return ['ID', 'Nama Lengkap', 'Banom', 'Asal Delegasi', 'Kode Alamat', 'Tempat Lahir', 'Tanggal Lahir', 'Terdaftar Pada', 'Jabatan'];
     }
 
     public function registerEvents(): array

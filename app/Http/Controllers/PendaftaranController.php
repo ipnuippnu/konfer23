@@ -87,11 +87,16 @@ class PendaftaranController extends Controller
         // dd($delegator->participants);
 
         //SoftDelete Partisipan
-        if($delegator->participants()->exists())
-            $delegator->participants()->delete();
 
-        foreach($participants as $data) 
-            $delegator->participants()->create($data);
+        /**
+         * ! MATIKAN PESERTA
+         */
+        // if($delegator->participants()->exists())
+        //     $delegator->participants()->delete();
+
+        // foreach($participants as $data) 
+        //     $delegator->participants()->create($data);
+        
 
         $delegator->steps()->create([
             'step' => DelegatorStep::$DIAJUKAN
