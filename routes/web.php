@@ -15,20 +15,16 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PendaftaranController;
 use App\Jobs\InvitationGeneratorJob;
-use App\Jobs\ParticipantCardGeneratorJob;
 use App\Models\Delegator;
 use App\Models\DelegatorStep;
 use App\Models\Guest;
 use App\Models\Participant;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Intervention\Image\Facades\Image;
-use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Angle;
 
 /*
 |--------------------------------------------------------------------------
@@ -165,7 +161,7 @@ Route::apiResource('qr', TestQrController::class);
 
 Route::get('test4', function(){
 
-    dispatch_sync(new InvitationGeneratorJob(Guest::first()));
+    dd(dispatch_sync(new InvitationGeneratorJob(Guest::first())));
 
 });
 

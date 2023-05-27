@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\InvitationGeneratorJob;
 use App\Models\Guest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class GuestController extends Controller
 {
@@ -54,9 +56,11 @@ class GuestController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Guest $guest)
     {
-        //
+        InvitationGeneratorJob::dispatchSync($guest);
+
+        return response()->file(Storage::disk('undangan')->path($guest->invitation));
     }
 
     /**
