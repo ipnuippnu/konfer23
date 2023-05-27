@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Guest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GuestController extends Controller
 {
@@ -13,7 +14,7 @@ class GuestController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()) return datatables()->eloquent(Guest::query())->toJson();
+        if($request->ajax()) return datatables()->eloquent(Guest::with('code'))->editColumn('created_at', fn($data) => $data->created_at->format('Y-m-d H:i:s'))->toJson();
         
         return view('admin.guests');
     }
@@ -23,7 +24,28 @@ class GuestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|regex:/^([-a-zA-Z\.,\' ]*)$/',
+            'jabatan' => 'nullable|regex:/^([-a-zA-Z\.,\' ]*)$/',
+            'alamat' => 'nullable|regex:/^([-a-zA-Z\.,\' ]*)$/',
+            'keterangan' => 'nullable|string',
+            'type' => 'required|in:vip,vvip'
+        ]);
+
+        DB::beginTransaction();
+        $result = Guest::create([
+            'name' => $request->get('name'),
+            'jabatan' => $request->get('jabatan'),
+            'address' => $request->get('alamat'),
+            'type' => $request->get('type'),
+            'keterangan' => $request->get('keterangan'),
+        ])->name;
+        DB::commit();
+
+        return response()->json([
+            'status' => true,
+            'message' => "$result berhasil ditambahkan."
+        ]);
     }
 
     /**
@@ -45,8 +67,12 @@ class GuestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Guest $guest)
     {
-        //
+        $guest->delete();
+
+        return response()->json([
+            'status' => true
+        ]);
     }
 }

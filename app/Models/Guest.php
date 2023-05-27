@@ -14,4 +14,5 @@ class Guest extends Model
     use HasFactory, Uuids, SoftDeletes, HasCode;
 
     protected $guarded = ['id'];
+    
 }

@@ -17,6 +17,7 @@
         "maatwebsite/excel": "^3.1",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-activitylog": "^4.7",
+        "tecnickcom/tcpdf": "^6.6",
         "watson/active": "^7.0",
         "yajra/laravel-datatables-editor": "^1.25",
         "yajra/laravel-datatables-oracle": "^10.4"

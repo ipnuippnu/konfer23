@@ -54,6 +54,12 @@ return [
             'throw' => false,
         ],
 
+        'undangan' => [
+            'driver' => 'local',
+            'root' => storage_path('app/undangan'),
+            'throw' => false,
+        ],
+
         'participants_card' => [
             'driver' => 'local',
             'root' => storage_path('app/participants_card'),

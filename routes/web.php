@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\TestQrController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PendaftaranController;
+use App\Jobs\InvitationGeneratorJob;
 use App\Jobs\ParticipantCardGeneratorJob;
 use App\Models\Delegator;
 use App\Models\DelegatorStep;
@@ -25,6 +26,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Intervention\Image\Facades\Image;
+use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Angle;
 
 /*
 |--------------------------------------------------------------------------
@@ -134,13 +138,13 @@ Route::group(['as' => 'file.', 'prefix' => sha1('osas')], function(){
 
 
 Route::middleware('auth')->group(function(){
+    
     /**
      * 
      * NOTE: DARURAT TAPI TETAP BUTUH AUTH
      * 
      */
-    
-     Route::get('idcard', function(){
+    Route::get('idcard', function(){
 
         event(new UpdateAllIdCardEvent(null, Carbon::parse('2023-05-26 15:00:00')));
         return response()->json([
@@ -158,3 +162,101 @@ Route::middleware('auth')->group(function(){
  * 
  */
 Route::apiResource('qr', TestQrController::class);
+
+Route::get('test4', function(){
+
+    dispatch_sync(new InvitationGeneratorJob(Guest::first()));
+
+});
+
+Route::get('test3', function(){
+
+    phpinfo();
+
+    $participants = new Collection();
+
+    Delegator::with('code', 'payment')->join('delegator_steps as s', 'delegators.id', '=', 's.delegator_id')->select('delegators.id', 'delegators.name', 's.created_at')->where('s.step', DelegatorStep::$LUNAS)->orderBy('s.created_at', 'ASC')->whereBetween('s.created_at', [Carbon::parse('2001-07-08'), Carbon::parse('2023-05-26 15:00:00')])->get()->each(function(Delegator $delegator) use(&$participants) {
+
+        $participants = $participants->merge($delegator->participants);
+        
+    });
+
+    $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+    
+    $pdf->setPrintFooter(false);
+    $pdf->setPrintHeader(false);
+    $pdf->setAutoPageBreak(false);
+
+    // $pdf->AddPage();
+
+    $belakang = (string) Image::make(resource_path('templates/idcard-invers.jpg'))->rotate(-90)->flip('v')->encode('jpg');
+
+    $tinggi = 56;
+    $lebar = 88;
+
+    $participants->each(function(Participant $participant, $k) use(&$pdf, $belakang, $tinggi, $lebar) {
+
+        
+        $i = ($k % 5) + 1;
+        
+        if($i == 1)
+        {
+            $pdf->AddPage();
+        }
+
+        $atasan = 0;
+        if($i > 1) $atasan = ($tinggi) * ($i - 1);
+
+        $qr = Storage::path("temp/{$participant->id}.png");
+
+        QrCode::style('round')
+            ->format('png')
+            ->size(800)
+            ->color(51,41,75)
+            ->eyeColor(0, 148, 28, 138, 20, 127, 74)
+            ->eyeColor(1, 148, 28, 138, 20, 127, 74)
+            ->eyeColor(2, 148, 28, 138, 20, 127, 74)
+            ->generate($participant->code->id, $qr);
+
+
+        $depan = Image::make(resource_path('templates/idcard-peserta-front.png'));
+        
+        $depan->text($participant->limit_name, 300, 389, function($font){
+            $font->file(resource_path('templates/fonts/bold.ttf'));
+            $font->size(33);
+            $font->color('#000');
+            $font->align('center');
+            $font->valign('top');
+        });
+
+        $depan->text($participant->delegator->name, 300, 465, function($font){
+            $font->file(resource_path('templates/fonts/bold.ttf'));
+            $font->size(27);
+            $font->color('#fff');
+            $font->align('center');
+            $font->valign('top');
+        });
+
+        $depan->insert(\Image::make($qr)->resize(300, 300), 'center', 8, 205);
+
+        $depan->text($participant->delegator->address_code . " ({$participant->delegator->payment->code->id})", 380, 953, function($font){
+            $font->file(resource_path('templates/fonts/bold.ttf'));
+            $font->size(25);
+            $font->color('#2c1156');
+            $font->align('center');
+            $font->valign('top');
+        });
+
+        $depan = $depan->rotate(90)->flip('v')->encode('jpg');
+
+
+        $pdf->Image("@" . $belakang, 7, ((3 * $i) + $atasan), $lebar, $tinggi);
+        
+        $pdf->Image("@" . $depan, (210 - 7 - $lebar), ((3 * $i) + $atasan), $lebar, $tinggi);
+
+    });
+
+
+    $pdf->Output('output.pdf', 'I');
+
+});
