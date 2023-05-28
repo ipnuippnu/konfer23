@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\GenerateGuestInvitationsEvent;
 use App\Events\UpdateAllIdCardEvent;
+use App\Listeners\GenerateGuestInvitationsListener;
 use App\Listeners\UpdateAllIdCardListener;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
@@ -25,6 +27,10 @@ class EventServiceProvider extends ServiceProvider
 
         UpdateAllIdCardEvent::class => [
             UpdateAllIdCardListener::class
+        ],
+
+        GenerateGuestInvitationsEvent::class => [
+            GenerateGuestInvitationsListener::class
         ],
     ];
 

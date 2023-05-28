@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ParticipantRequest;
 use App\Models\Delegator;
 use App\Models\DelegatorStep;
-use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;

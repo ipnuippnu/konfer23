@@ -25,6 +25,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Intervention\Image\Facades\Image;
+use Intervention\Image\Image as ImageImage;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,6 +92,7 @@ Route::group(['prefix' => sha1('YunYun'), 'as' => 'admin.'], function(){
 
         //Undangan
         Route::apiResource('guests', GuestController::class);
+        Route::post('guests/download', [GuestController::class, 'download'])->name('guests.download');
 
     });
 
@@ -254,5 +256,101 @@ Route::get('test3', function(){
 
 
     $pdf->Output('output.pdf', 'I');
+
+});
+
+Route::get('test5', function(){
+
+    
+
+    $pdf = new TCPDF('P', 'mm', 'F4', true, 'UTF-8', false);
+    
+    $pdf->setPrintFooter(false);
+    $pdf->setPrintHeader(false);
+    $pdf->setAutoPageBreak(false);
+    $pdf->setMargins(2, 2, 2);
+
+    // $pdf->AddPage();
+
+    
+    
+    function addTextBox(ImageImage &$image, $text, $positionx, $positiony, $maxCharPerLine)
+    {
+        $splits = explode(' ', $text);
+        $currentLine = '';
+        $lines = 1;
+
+        $atas = -85;
+
+        $text_jadi = "Yth.\n";
+
+        foreach($splits as $word)
+        {
+            $currentLine .= " $word";
+            if(strlen(trim($currentLine)) > $maxCharPerLine)
+            {
+                $text_jadi .= substr(trim($currentLine), 0, (-1 + strlen($word) * -1)) . "\n";
+                $lines++;
+                $currentLine = $word;
+
+                $atas -= 85;
+            }
+        }
+
+        $text_jadi .= $currentLine;
+        $atas -= 85;
+
+        $image->text($text_jadi, $positionx, ($positiony + $atas), function($font){
+            $font->file(resource_path('templates/fonts/bold.ttf'));
+            $font->size(80);
+            $font->color('#d7b033');
+            $font->align('center');
+            $font->valign('middle');
+        });
+    }
+
+    $now = 1;
+    Guest::take(1)->get()->each(function(Guest $guest) use(&$now, &$pdf) {
+
+
+        $luar = Image::make(resource_path('templates/undangan-depan.png'));
+
+        $luar->resize(4243, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
+        $qr = Image::make(base64_encode(QrCode::style('round')
+            ->format('png')
+            ->size(800)
+            ->color(51,41,75)
+            ->eyeColor(0, 148, 28, 138, 20, 127, 74)
+            ->eyeColor(1, 148, 28, 138, 20, 127, 74)
+            ->eyeColor(2, 148, 28, 138, 20, 127, 74)
+            ->generate($guest->code->id)))->resize(700, 700);
+    
+        $luar->insert($qr, 'center', 1310, -220);
+    
+        addTextBox($luar, $guest->name, 3190, 2300, 25);
+
+
+        if($now === 2)
+        {
+            $now = 1;
+            $pdf->Image('@' . $luar->encode('jpg'), $pdf->GetX(), 147, $pdf->getPageWidth() - 4);
+        }
+
+        else
+
+        {
+            $pdf->AddPage();
+            $now = 2;
+            $pdf->Image('@' . $luar->encode('jpg'), $pdf->GetX(), $pdf->GetY(), $pdf->getPageWidth() - 4);
+        }
+        
+    });
+
+    
+
+    Storage::put('toganjelto.pdf', $pdf->Output('', 'S'));
 
 });
