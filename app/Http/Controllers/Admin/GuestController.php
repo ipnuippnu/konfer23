@@ -27,7 +27,7 @@ class GuestController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
+            'name' => 'required|string|unique:guests',
             'jabatan' => 'nullable|string',
             'alamat' => 'nullable|string',
             'keterangan' => 'nullable|string',
