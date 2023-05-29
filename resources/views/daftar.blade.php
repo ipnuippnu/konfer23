@@ -103,7 +103,7 @@
                                 <label class="custom-file-label bg-dark border-secondary" for="customFile">Pilih berkas (PDF)</label>
                             </div>
                             @else
-                            <a target="_blank" href="{{ route('daftar.file', ['st']) }}" class="btn btn-sm btn-block btn-secondary"><i class="fas fa-download mr-1"></i> Lihat Surat Tugas/Surat Mandat</a>
+                            <a target="_blank" href="{{ $delegator?->surat_tugas ?? '#' }}" class="btn btn-sm btn-block btn-secondary"><i class="fas fa-download mr-1"></i> Lihat Surat Tugas/Surat Mandat</a>
                             @endif
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                                 <label class="custom-file-label bg-dark border-secondary" for="customFile">Pilih berkas (PDF)</label>
                             </div>
                             @else
-                            <a target="_blank" href="{{ route('daftar.file', ['sp']) }}" class="btn btn-sm btn-block btn-secondary"><i class="fas fa-download mr-1"></i> Lihat Surat Pengesahan</a>
+                            <a target="_blank" href="{{ $delegator?->surat_pengesahan ?? '#' }}"" class="btn btn-sm btn-block btn-secondary"><i class="fas fa-download mr-1"></i> Lihat Surat Pengesahan</a>
                             @endif
                         </div>
                     </div>

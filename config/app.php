@@ -1,5 +1,7 @@
 <?php
 
+use App\Permissions\AdminPermission;
+use App\Permissions\FilePermission;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -212,7 +214,10 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'DelegatorStep' => \App\Models\DelegatorStep::class,
         'Image' => Intervention\Image\Facades\Image::class,
-        // 'ExampleClass' => App\Example\ExampleClass::class,
+
+        'AdminPermission' => AdminPermission::class,
+        'FilePermission' => FilePermission::class,
+
     ])->toArray(),
 
 ];

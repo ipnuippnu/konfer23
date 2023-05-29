@@ -106,7 +106,7 @@
                                         <label class="custom-file-label bg-dark border-secondary" for="customFile">Pilih berkas (PDF/Gambar)</label>
                                     </div>
                                     @else
-                                    <a target="_blank" href="{{ route('bayar.bukti') }}" class="btn btn-secondary btn-sm btn-block"><i class="fas fa-eye mr-1"></i> Lihat Bukti Pembayaran</a>
+                                    <a target="_blank" href="{{ $payment->bukti_transfer }}" class="btn btn-secondary btn-sm btn-block"><i class="fas fa-eye mr-1"></i> Lihat Bukti Pembayaran</a>
                                     @endif
                                 </div>
                             </div>

@@ -144,13 +144,15 @@
 					</div>
 					<ul class="nav nav-primary">
 						
+						@can(AdminPermission::DASHBOARD_READ)
 						<li class="nav-item {{ active('admin./') }}">
 							<a href="{{ route('admin./') }}">
 								<i class="fas fa-home"></i>
 								<p>Dashboard</p>
 							</a>
 						</li>
-
+						@endcan
+						
 						<li class="nav-section">
 							<span class="sidebar-mini-icon">
 								<i class="fa fa-ellipsis-h"></i>
@@ -158,26 +160,32 @@
 							<h4 class="text-section">Pendaftaran</h4>
 						</li>
 						
+						@can(AdminPermission::DELEGATOR_READ)
 						<li class="nav-item {{ active(['admin.delegators.*']) }}">
 							<a href="{{ route('admin.delegators.index') }}">
 								<i class="fas fa-sitemap"></i>
 								<p>Pimpinan</p>
 							</a>
 						</li>
+						@endcan
 						
+						@can(AdminPermission::PARTICIPANT_READ)
 						<li class="nav-item {{ active(['admin.participants.*']) }}">
 							<a href="{{ route('admin.participants.index') }}">
 								<i class="fas fa-user"></i>
 								<p>Peserta</p>
 							</a>
 						</li>
+						@endcan
 						
+						@can(AdminPermission::PAYMENT_READ)
 						<li class="nav-item {{ active(['admin.payments.*']) }}">
 							<a href="{{ route('admin.payments.index') }}">
 								<i class="fas fa-dollar-sign"></i>
 								<p>Pembayaran</p>
 							</a>
 						</li>
+						@endcan
 
 						<li class="nav-section">
 							<span class="sidebar-mini-icon">
@@ -186,19 +194,23 @@
 							<h4 class="text-section">Alat</h4>
 						</li>
 						
+						@can(AdminPermission::BROADCAST_READ)
 						<li class="nav-item {{ active('admin.broadcast') }}">
 							<a href="{{ route('admin.broadcast') }}">
 								<i class="fas fa-broadcast-tower"></i>
 								<p>Broadcast</p>
 							</a>
 						</li>
+						@endcan
 						
+						@can(AdminPermission::GUEST_READ)
 						<li class="nav-item {{ active(['admin.guests.*']) }}">
 							<a href="{{ route('admin.guests.index') }}">
 								<i class="fas fa-mail-bulk"></i>
 								<p>Undangan</p>
 							</a>
 						</li>
+						@endcan
 
 					</ul>
 				</div>
