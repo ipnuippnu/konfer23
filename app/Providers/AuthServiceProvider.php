@@ -8,6 +8,7 @@ use App\Permissions\FilePermission as File;
 use App\Permissions\AdminPermission as Admin;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use ReflectionClass;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -72,7 +73,19 @@ class AuthServiceProvider extends ServiceProvider
 
     private function adminPolicies()
     {
-        Gate::define(Admin::DASHBOARD_READ, fn(User $user) => in_array(Admin::DASHBOARD_READ, $user->permission));
+        $customPermission = [
+            // Admin::DASHBOARD_READ => function(User $user) { }
+        ];
+
+        foreach((new ReflectionClass(Admin::class))->getConstants() as $permission)
+        {
+            if(isset($customPermission[$permission]))
+                Gate::define($permission, $customPermission[$permission]);
+
+            else
+                Gate::define($permission, fn(User $user) => in_array($permission, $user->permission));
+            
+        }
     }
 
 }

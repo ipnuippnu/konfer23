@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BroadcastController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DelegatorController;
+use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\GuestController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\ParticipantController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PendaftaranController;
 use App\Permissions;
+use App\Permissions\AdminPermission;
 use App\Permissions\FilePermission;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -69,13 +71,17 @@ Route::group(['prefix' => sha1('YunYun'), 'as' => 'admin.'], function(){
         Route::post('/change-picture', [ProfileController::class, 'changePicture'])->can('change-picture')->name('change-picture');
 
         //Pendaftaran
-        Route::get('participants/recap', [RecapController::class, 'participants'])->can('participants-recap')->name('participants.recap');
+        Route::get('participants/recap', [RecapController::class, 'participants'])->can(AdminPermission::PARTICIPANT_RECAP)->name('participants.recap');
         Route::apiResource('participants', ParticipantController::class);
-        Route::get('delegators/recap', [RecapController::class, 'delegators'])->can('delegators-recap')->name('delegators.recap');
+        Route::get('delegators/recap', [RecapController::class, 'delegators'])->can(AdminPermission::DELEGATOR_RECAP)->name('delegators.recap');
         Route::apiResource('delegators', DelegatorController::class);
+        Route::get('payments/recap', [RecapController::class, 'payments'])->can(AdminPermission::PAYMENT_RECAP)->name('payments.recap');
         Route::apiResource('payments', PaymentController::class);
 
         // /*!SECTION Tools */
+
+        //Event
+        Route::apiResource('events', EventController::class);
 
         //Broadcast
         Route::get('broadcast', BroadcastController::class)->name('broadcast');

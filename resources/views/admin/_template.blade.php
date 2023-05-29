@@ -194,11 +194,11 @@
 							<h4 class="text-section">Alat</h4>
 						</li>
 						
-						@can(AdminPermission::BROADCAST_READ)
-						<li class="nav-item {{ active('admin.broadcast') }}">
-							<a href="{{ route('admin.broadcast') }}">
-								<i class="fas fa-broadcast-tower"></i>
-								<p>Broadcast</p>
+						@can(AdminPermission::EVENT_READ)
+						<li class="nav-item {{ active(['admin.events.*']) }}">
+							<a href="{{ route('admin.events.index') }}">
+								<i class="fas fa-tasks"></i>
+								<p>Kegiatan</p>
 							</a>
 						</li>
 						@endcan
@@ -208,6 +208,15 @@
 							<a href="{{ route('admin.guests.index') }}">
 								<i class="fas fa-mail-bulk"></i>
 								<p>Undangan</p>
+							</a>
+						</li>
+						@endcan
+						
+						@can(AdminPermission::BROADCAST_READ)
+						<li class="nav-item {{ active('admin.broadcast') }}">
+							<a href="{{ route('admin.broadcast') }}">
+								<i class="fas fa-broadcast-tower"></i>
+								<p>Broadcast</p>
 							</a>
 						</li>
 						@endcan

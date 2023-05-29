@@ -14,6 +14,7 @@ abstract class AdminPermission
     const PARTICIPANT_IDCARD = "admin.participants.idcard";
 
     const PAYMENT_READ = "admin.payments.read";
+    const PAYMENT_RECAP = "admin.payments.recap";
 
     const BROADCAST_READ = "admin.broadcast.read";
     const BROADCAST_REVISION = "admin.broadcast.revision";
@@ -23,4 +24,8 @@ abstract class AdminPermission
     const GUEST_INVITATION = "admin.guest.invitation";
     const ADD_DELETE = "admin.guest.add";
     const GUEST_DELETE = "admin.guest.delete";
+
+    const EVENT_READ = "admin.event.read";
+    const EVENT_ADD = "admin.event.add";
+    const EVENT_DELETE = "admin.event.delete";
 }
