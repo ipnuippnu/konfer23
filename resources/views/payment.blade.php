@@ -60,11 +60,13 @@
                                     </thead>
                                     <tbody>
                                         @if($payment != null)
+                                        @php $current = 0; @endphp
                                         @foreach($payment->delegators as $delegator)
+                                        @php $current += ($delegator->participants->count() * 60000); @endphp
                                         <tr>
                                             <td>{{ $delegator->name }}</td>
                                             <td>{{ $delegator->participants->count() }} orang</td>
-                                            <td>Rp. {{ number_format($current += ($delegator->participants->count() * 60000)) }}</td>
+                                            <td>Rp. {{ number_format(($delegator->participants->count() * 60000)) }}</td>
                                         </tr>
                                         @endforeach
                                         @endif
