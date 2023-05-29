@@ -1,6 +1,8 @@
 <?php
 
 use App\Events\UpdateAllIdCardEvent;
+use App\Generators\IdCardParticipant;
+use App\Generators\Invitation;
 use App\Http\Controllers\Admin\BroadcastController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DelegatorController;
@@ -19,6 +21,7 @@ use App\Models\Delegator;
 use App\Models\DelegatorStep;
 use App\Models\Guest;
 use App\Models\Participant;
+use App\Types\Face;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;

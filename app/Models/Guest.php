@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\HasCode;
 use App\Traits\Uuids;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,7 +17,21 @@ class Guest extends Model
 
     protected $guarded = ['id'];
 
+    public function type() : Attribute
+    {
+        return Attribute::make(
+            get: fn($val) => strtoupper($val),
+            set: fn($val) => strtolower($val)
+        );
+    }
 
+    public function event() : Attribute
+    {
+        return Attribute::make(
+            get: fn($val) => strtoupper($val),
+            set: fn($val) => strtolower($val)
+        );
+    }
 
     public function getActivitylogOptions(): LogOptions
     {

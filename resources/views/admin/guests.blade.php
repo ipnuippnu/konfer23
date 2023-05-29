@@ -3,6 +3,14 @@
 
 @push('header')
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.6.2/css/select.dataTables.min.css">
+    <style>
+        .select-checkbox{
+            cursor: pointer;
+        }
+        .select-checkbox::before, .select-checkbox::after{
+            position: unset !important;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -32,14 +40,11 @@
                         <button data-toggle="modal" data-target="#myModal" href="{{ route('admin.delegators.recap') }}" class="btn btn-success btn-round ml-3 ">
                             <i class="fa fa-plus"></i>
                         </button>
-                        <button id="cetak-massal" disabled="disabled" class="btn btn-warning btn-round ml-3 ">
-                            <i class="fa fa-download mr-2"></i> Unduh Massal
-                        </button>
                         <button class="btn btn-outline-success btn-round ml-auto ">
-                            VIP: {{ $vip }}
+                            VIP: <span id="vip">0</span>
                         </button>
                         <button class="btn btn-outline-danger btn-round ml-2 ">
-                            VVIP: {{ $vvip }}
+                            VVIP: <span id="vvip">0</span>
                         </button>
                     </div>
                 </div>
@@ -51,20 +56,22 @@
                                 <tr>
                                     <th style="width: 2%"></th>
                                     <th>Nama</th>
+                                    <th>Tipe Undangan</th>
                                     <th>Jenis</th>
                                     <th>Kode</th>
-                                    <th>Ditambahkan Pada</th>
-                                    <th></th>
+                                    <th>Undangan</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th></th>
                                     <th>Nama</th>
+                                    <th>Tipe Undangan</th>
                                     <th>Jenis</th>
                                     <th>Kode</th>
-                                    <th>Ditambahkan Pada</th>
-                                    <th></th>
+                                    <th>Undangan</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </tfoot>
                             <tbody></tbody>
@@ -92,12 +99,25 @@
                 <label>Kepada<i class="text-danger">*</i></label>
                 <input type="text" class="form-control" name="name">
               </div>
-              <div class="form-group">
-                <label>Jenis<i class="text-danger">*</i></label>
-                <select name="type" class="form-control">
-                    <option value="vip">VIP</option>
-                    <option value="vvip">VVIP</option>
-                </select>
+              <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Jenis<i class="text-danger">*</i></label>
+                        <select name="type" class="form-control">
+                            <option value="vip">VIP</option>
+                            <option value="vvip">VVIP</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Jenis Undangan<i class="text-danger">*</i></label>
+                        <select name="event" class="form-control">
+                            <option value="ymf">Youth Muslim Festival</option>
+                            <option value="konfercab">Konferensi Cabang</option>
+                        </select>
+                    </div>
+                </div>
               </div>
               <div class="form-group">
                 <label>Jabatan</label>
@@ -116,7 +136,7 @@
   
         <!-- Modal footer -->
         <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-dismiss="modal" id="gas-tambah">Tambah!</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" id="gas-tambah">Tambah</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
   
@@ -137,18 +157,9 @@
             processing: true,
             serverSide: true,
             ajax: "",
-            order: [[3, 'desc']],
-            columnDefs: [ {
-                orderable: false,
-                className: 'select-checkbox',
-                targets:   0
-            } ],
-            select: {
-                style:    'multi',
-                selector: 'td:first-child'
-            },
+            order: [[0, 'desc']],
             columns: [
-                { name: 'name', render: () => ''},
+                { data: 'updated_at', render: (val, type, row) => row["DT_RowIndex"] },
                 { data: 'name', render(d, t, r){
                     return `
                     ${r.name}
@@ -157,9 +168,20 @@
 
                     `;
                 }},
-                { data: 'type', render: val => val.toUpperCase()},
+                { data: 'event'},
+                { data: 'type'},
                 { data: 'code.id', orderable: false},
-                { data: 'created_at'},
+                { searchable: false, orderable: false, render(val, type, row){
+                    return `
+                    
+                    <div class="d-flex">
+                        <a href="{{ route('admin.guests.index') }}/${row.id}?type=pdf" target="_blank" class="btn btn-primary btn-sm mr-1">PDF</a>
+                        <a href="{{ route('admin.guests.index') }}/${row.id}?type=front" target="_blank" class="btn btn-success btn-sm mr-1">JPG Depan</a>
+                        <a href="{{ route('admin.guests.index') }}/${row.id}?type=back" target="_blank" class="btn btn-secondary btn-sm mr-1">JPG Belakang</a>
+                    </div>
+
+                    `
+                }},
                 {render: (val, t, data) => function(){
 
                     return `
@@ -173,6 +195,8 @@
                 }, searchable:false, orderable: false},
             ],
             createdRow(row, data, dataIndex){
+                $('#vip').html(data.vip);
+                $('#vvip').html(data.vvip);
                 $(row).find('.delete').click(function(){
                     Swal.fire({
                         icon: 'question',
@@ -210,72 +234,6 @@
                 });
             }
         });
-
-        const editedit = (e, dt, type, indexes) => {
-
-            if ( datatables.rows({selected: true}).count() > 6 ) {
-                datatables.rows(indexes).deselect();
-                $.notify({
-                    icon: 'flaticon-check',
-                    title: 'Tidak diizinkan!',
-                    message: 'Anda hanya boleh memilih maksimal 6 undangan',
-                }, {type: 'secondary'})
-            }
-
-            if(datatables.rows( { selected: true } ).count() == 0)
-            {
-                $('#cetak-massal').attr('disabled', 'disabled');
-            }else
-            {
-                $('#cetak-massal').removeAttr('disabled');
-            }
-
-        }
-
-        $('#cetak-massal').on('click', function(){
-            let newArray = [];
-            let data = datatables.rows( { selected: true } ).data();
-
-            for (var i=0; i < data.length ;i++){
-                newArray.push(data[i]['id']);
-            }
-
-            Swal.fire({
-
-                text: 'Sedang memproses...',
-                allowOutsideClick: () => !Swal.isLoading(),
-                allowEscapeKey: () => !Swal.isLoading(),
-
-                didOpen(){
-                    Swal.showLoading();
-                    axios.post('{{ route('admin.guests.download') }}', {
-                        data: newArray
-                    }).then(e => {
-                        if(e.data.status === true)
-                        {
-                            location.href = e.data.link
-                            Swal.close()
-                            setTimeout(() => {
-                                $.notify({
-                                    icon: 'flaticon-check',
-                                    title: 'Berhasil!',
-                                    message: 'Menuju unduhan...',
-                                }, {type: 'info'})
-                            }, 200);
-                        }
-                        else
-                        {
-                            Swal.fire('Gagal!', e.data.message ?? 'Kesalahan Sistem. Hubungi Admin.', 'error')
-                        }
-                    })
-                }
-            })
-
-        })
-
-        datatables.on('select', editedit)
-
-        datatables.on('deselect', editedit)
 
         $('#myModal').on('hidden.bs.modal', function (e) {
             $(this)

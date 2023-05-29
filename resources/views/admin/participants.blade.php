@@ -41,7 +41,7 @@
                                     <th>Jabatan</th>
                                     <th>Tempat / Tgl. Lahir</th>
                                     <th>Asal Delegasi</th>
-                                    <th style="width: 10%">Aksi</th>
+                                    <th style="width: 10%">ID Card</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -50,7 +50,7 @@
                                     <th>Jabatan</th>
                                     <th>Tempat / Tgl. Lahir</th>
                                     <th>Asal Delegasi</th>
-                                    <th>Aksi</th>
+                                    <th>ID Card</th>
                                 </tr>
                             </tfoot>
                             <tbody></tbody>
@@ -79,17 +79,17 @@
                 { data: 'delegator.name', render (a, b, c) {
                     return a + ` <br /> <span class='badge'>${c.delegator.address_code}</span>`
                 }},
-                { render (a, b, c) {
-                    // return `<div class="form-button-action">
-                    //             <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
-                    //                 <i class="fa fa-edit"></i>
-                    //             </button>
-                    //             <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
-                    //                 <i class="fa fa-times"></i>
-                    //             </button>
-                    //         </div>`
-                    return '<i>Belum Tersedia</i>'
-                }, orderable: false, searchable: false},
+                { searchable: false, orderable: false, render(val, type, row){
+                    return `
+                    
+                    <div class="d-flex">
+                        <a href="{{ route('admin.participants.index') }}/${row.id}?type=pdf" target="_blank" class="btn btn-primary btn-sm mr-1">PDF</a>
+                        <a href="{{ route('admin.participants.index') }}/${row.id}?type=front" target="_blank" class="btn btn-success btn-sm mr-1">JPG Depan</a>
+                        <a href="{{ route('admin.participants.index') }}/${row.id}?type=back" target="_blank" class="btn btn-secondary btn-sm mr-1">JPG Belakang</a>
+                    </div>
+
+                    `
+                }},
 
                 { data: 'delegator.address_code', searchable: true, visible: false },
                 { data: 'born_place', searchable: true, visible: false }
