@@ -27,11 +27,11 @@ class Kernel extends ConsoleKernel
 
             Nggak kerasa ya udah tanggal 30 Mei, 3 hari lagi nih nggak sabar pengen ketemu sama rekan/ita 🤭
 
-            Oh iya, diatas telah kami kirimkan Code QR untuk pengambilan fasilitas KONFERCAB di tempat Check-In.
+            Oh iya, berikut kami kirimkan Code QR untuk pengambilan fasilitas KONFERCAB di tempat Check-In.
 
             Jangan lupa untuk hadir tepat waktu ya, See you on 2 Juni 2023. 👋👋
 
-            ⚠️ Jangan sebarin QR Code nya ya, takutnya nanti identitas kamu disalahgunain sama orang lain 😨
+            ⚠️ _Simpan QR Code ini sebaik mungkin, jangan sampai disalahgunakan oleh orang lain 😨
             EOL;
 
             Delegator::whereHas('steps', fn($q) => $q->where('step', DelegatorStep::$LUNAS))->get()->groupBy('whatsapp')->each(function(Collection $data, $phone) use($pesan) {
@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
                         $img = base64_encode(QrCheckIn::generate($delegator, 'jpg')->getEncoded());
                         return new SendWhatsappJob($phone, "", $img);
 
-                    })->merge([new SendWhatsappJob($phone, $pesan)])->toArray();
+                    })->prepend(new SendWhatsappJob($phone, $pesan))->toArray();
 
                     Bus::batch($jobs)->onQueue('send_wa')->dispatch();
                 }
