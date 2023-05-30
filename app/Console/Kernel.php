@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Generators\QrCheckIn;
 use App\Jobs\SendWhatsappJob;
 use App\Models\Delegator;
+use App\Models\DelegatorStep;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Eloquent\Collection;
@@ -33,8 +34,8 @@ class Kernel extends ConsoleKernel
             ⚠️ Jangan sebarin QR Code nya ya, takutnya nanti identitas kamu disalahgunain sama orang lain 😨
             EOL;
 
-            Delegator::all()->groupBy('whatsapp')->each(function(Collection $data, $phone) use($pesan) {
-                if($data->count() > 1 && $phone == '6285158303855')
+            Delegator::whereHas('steps', fn($q) => $q->where('step', DelegatorStep::$LUNAS))->get()->groupBy('whatsapp')->each(function(Collection $data, $phone) use($pesan) {
+                if($data->count() > 1)
                 {
                     $jobs = $data->map(function(Delegator $delegator) use($phone) {
                         $img = base64_encode(QrCheckIn::generate($delegator, 'jpg')->getEncoded());
@@ -52,7 +53,7 @@ class Kernel extends ConsoleKernel
             });
 
         })->when(function(){
-            return Carbon::now()->format('Y-m-d H:i') == Carbon::parse('2023-05-30 09:00')->format('Y-m-d H:i');
+            return Carbon::now()->format('Y-m-d H:i') == Carbon::parse('2023-05-30 22:00')->format('Y-m-d H:i');
         });
     }
 
