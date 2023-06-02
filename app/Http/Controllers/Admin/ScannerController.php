@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\QrCodeScanned;
+use App\Events\QrGuest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Code;
@@ -54,6 +55,11 @@ class ScannerController extends Controller
             ($event->target_type === EventTargetType::PAYMENTS && $code->content instanceof Payment)
         )
         {
+            if($code->content instanceof Guest)
+            {
+                broadcast(new QrGuest($code->content));
+            }
+
             DB::beginTransaction();
             $event->members()->syncWithoutDetaching($code->content);
             DB::commit();

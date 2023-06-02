@@ -32,7 +32,7 @@
         </div>
 
     </div>
-    @vite('resources/js/scanner.js')
+    @vite('resources/js/qr.js')
     <script>
         const animateCSS = (element, animation, prefix = 'animate__') =>
             new Promise((resolve, reject) => {
