@@ -248,11 +248,13 @@ Artisan::command('akun:scanner', function(){
     $sandi = 'lalisandine';
 
     $user = User::create([
+        'gender' => 'L',
         'permission' => [ AdminPermission::SCANNER ],
         'name' => "Sekretariat $no_urut",
         'jabatan' => 'Hanya Pemindai',
         'password' => bcrypt($sandi),
-        'email' => $email = strtolower($no_urut."@qr.com")
+        'email' => $email = strtolower($no_urut."@qr.com"),
+        'phone' => '0000000000' . $no_urut,
     ]);
 
     dump([
