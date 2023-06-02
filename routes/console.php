@@ -2,11 +2,7 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Database\Eloquent\Collection;
-use App\Models\Delegator;
-use App\Models\DelegatorStep;
 use App\Models\Guest;
-use Carbon\Carbon;
 use App\Models\Participant;
 use App\Models\User;
 use App\Permissions\AdminPermission;
@@ -14,6 +10,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Intervention\Image\Facades\Image;
+
+use App\Generators\QrCheckIn;
+use App\Jobs\SendWhatsappJob;
+use App\Models\Delegator;
+use App\Models\DelegatorStep;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Database\Eloquent\Collection;
 
 /*
 |--------------------------------------------------------------------------
@@ -263,4 +267,36 @@ Artisan::command('akun:scanner', function(){
         'sandi' => $sandi
     ], Hash::check($sandi, $user->password));
 
+});
+
+Artisan::command('kirimqr', function(){
+
+        $pesan = <<<EOL
+        💚  💚  💚
+        Assalamu'alaikum rekan/ita
+
+        Berikut kami kirimkan Code QR untuk pengambilan fasilitas KONFERCAB di tempat Check-In.
+
+        Jangan lupa untuk hadir tepat waktu ya, See you on 2 Juni 2023. 👋👋
+
+        ⚠️ _Simpan QR Code ini sebaik mungkin, jangan sampai disalahgunakan oleh orang lain 😨
+        EOL;
+
+        Delegator::whereHas('steps', fn($q) => $q->where('step', DelegatorStep::$LUNAS)->whereDate('created_at', [Carbon::parse('11:15'), Carbon::now()]))->get()->groupBy('whatsapp')->each(function(Collection $data, $phone) use($pesan) {
+            if($data->count() > 1)
+            {
+                $jobs = $data->map(function(Delegator $delegator) use($phone) {
+                    $img = base64_encode(QrCheckIn::generate($delegator, 'jpg')->getEncoded());
+                    return new SendWhatsappJob($phone, "", $img);
+
+                })->prepend(new SendWhatsappJob($phone, $pesan))->toArray();
+
+                Bus::batch($jobs)->onQueue('send_wa')->dispatch();
+            }
+            else
+            {
+                $img = base64_encode(QrCheckIn::generate($data[0], 'jpg')->getEncoded());
+                SendWhatsappJob::dispatch($phone, $pesan, $img);
+            }
+        });
 });
