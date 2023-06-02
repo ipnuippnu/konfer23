@@ -58,14 +58,20 @@ document.addEventListener("DOMContentLoaded", () => {
                             const video = document.querySelector('video')
                             window.qr = new QrScanner(
                                 video,
-                                result => {
+                                hasil => {
                                     
                                     Suwal.fire({
                                         didOpen(){
                                             Suwal.showLoading()
-                                            axios.post('', {
-                                                'code': result.data,
+                                            let data = {
+                                                'code': hasil.data,
                                                 'event': uuid
+                                            }
+                                            axios({
+                                                method: 'post',
+                                                url:'',
+                                                data: data,
+                                                timeout: 2000,
                                             }).then(e => e.data).then(async e => {
                                                 if(e.status === true)
                                                 {
@@ -77,6 +83,35 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 }
 
                                                 window.qr.start()
+                                            }).catch(function(e){
+
+                                                console.log(result, data)
+
+                                                transaction = database.transaction(result.type, "readwrite")
+                                                store = transaction.objectStore(result.type)
+                                                
+                                                let ambil = store.get(data.code)
+                                                ambil.onsuccess = function(){
+                                                    if(ambil.result){
+                                                        queue.push(data)
+                                                        Suwal.fire('Sukses!', "(Offline) "+ambil.result.name, 'success')
+                                                        window.qr.start()
+
+                                                        transaction = database.transaction(result.type, "readwrite")
+                                                        store = transaction.objectStore(result.type)
+                                                        store.delete(data.code)
+                                                    }
+                                                    else
+                                                    {
+                                                        Suwal.fire('Astaghfirullah', "Data tidak ditemukan", 'error')
+                                                    }
+                                                }
+
+                                                ambil.onerror = function(){
+                                                    Suwal.fire('Astaghfirullah', "Data tidak ditemukan", 'error')
+                                                    window.qr.start()
+                                                }
+
                                             })
                                         }
                                     })
@@ -141,10 +176,15 @@ document.addEventListener("DOMContentLoaded", () => {
                                             })
                                         },
                                         preConfirm: () => {
-                                            window.qr.stop()
-                                            return axios.post('', {
+                                            let data = {
                                                 'code': $('#select2').select2('data')[0].id,
                                                 'event': uuid
+                                            }
+                                            window.qr.stop()
+                                            return axios({
+                                                method: 'post',
+                                                data: data,
+                                                timeout: 2000
                                             }).then(e => e.data).then(async e => {
                                                 if(e.status === true)
                                                 {
@@ -159,6 +199,33 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 }
 
                                                 window.qr.start()
+                                            }).catch(e => {
+                                                transaction = database.transaction(result.type, "readwrite")
+                                                store = transaction.objectStore(result.type)
+                                                
+                                                let ambil = store.get(data.code)
+                                                ambil.onsuccess = function(){
+                                                    if(ambil.result)
+                                                    {
+                                                        queue.push(data)
+                                                        Suwal.fire('Sukses!', "(Offline) "+ambil.result.name, 'success')
+                                                        window.qr.start()
+
+                                                        transaction = database.transaction(result.type, "readwrite")
+                                                        store = transaction.objectStore(result.type)
+                                                        store.delete(data.code)
+
+                                                    }
+                                                    else
+                                                    {
+                                                        Suwal.fire('Astaghfirullah', "Data tidak ditemukan", 'error')
+                                                    }
+                                                }
+
+                                                ambil.onerror = function(){
+                                                    Suwal.fire('Astaghfirullah', "Data tidak ditemukan", 'error')
+                                                    window.qr.start()
+                                                }
                                             })
                                         }
                                     })
@@ -187,5 +254,20 @@ document.addEventListener("DOMContentLoaded", () => {
     {
         Suwal.fire('Tidak Didukung!', 'Perangkat anda tidak mendukung untuk melakukan scan QR Code', 'error')
     }
+
+    let busy = false
+    setInterval(function(){
+        if(!busy && queue.length > 0)
+        {
+            busy = true
+            axios.post('', queue[0]).then(function(){
+                queue.splice(0, 1)
+            }).catch(function(){
+
+            }).finally(function(){
+                busy = false
+            })
+        }
+    }, 1000)
 
 });

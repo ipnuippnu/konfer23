@@ -55,16 +55,16 @@ class ScannerController extends Controller
             ($event->target_type === EventTargetType::PAYMENTS && $code->content instanceof Payment)
         )
         {
-            if($code->content instanceof Guest)
-            {
-                broadcast(new QrGuest($code->content));
-            }
+            // if($code->content instanceof Guest)
+            // {
+            //     broadcast(new QrGuest($code->content));
+            // }
 
             DB::beginTransaction();
             $event->members()->syncWithoutDetaching($code->content);
             DB::commit();
 
-            broadcast(new QrCodeScanned($code));
+            // broadcast(new QrCodeScanned($code));
             activity('qr')->on($code->content)->log('QR Dipindai');
             return response([
                 'status' => true,

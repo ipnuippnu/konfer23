@@ -38,7 +38,7 @@
     "dynamicImports": [
       "node_modules/qr-scanner/qr-scanner-worker.min.js"
     ],
-    "file": "assets/scanner-67d56e10.js",
+    "file": "assets/scanner-b626de4c.js",
     "imports": [
       "_bootstrap-5741016f.js"
     ],
