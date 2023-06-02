@@ -1,4 +1,5 @@
 import {Eko, axios, Pusher, Suwal} from './bootstrap.js';
+
 Eko.channel(`qr_guest`)
     .listen('QrGuest', (e) => {
 
