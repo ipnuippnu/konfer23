@@ -1,4 +1,14 @@
 {
+  "_bootstrap-fa0c509c.js": {
+    "css": [
+      "assets/bootstrap-2d4c25b0.css"
+    ],
+    "file": "assets/bootstrap-fa0c509c.js"
+  },
+  "bootstrap.css": {
+    "file": "assets/bootstrap-2d4c25b0.css",
+    "src": "bootstrap.css"
+  },
   "node_modules/qr-scanner/qr-scanner-worker.min.js": {
     "file": "assets/qr-scanner-worker.min-5f44a019.js",
     "isDynamicEntry": true,
@@ -9,18 +19,29 @@
     "isEntry": true,
     "src": "resources/css/app.css"
   },
+  "resources/js/qr.js": {
+    "file": "assets/qr-2e8b47b0.js",
+    "imports": [
+      "_bootstrap-fa0c509c.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/qr.js"
+  },
   "resources/js/scanner.css": {
-    "file": "assets/scanner-788f5ae0.css",
+    "file": "assets/scanner-8d49902c.css",
     "src": "resources/js/scanner.css"
   },
   "resources/js/scanner.js": {
     "css": [
-      "assets/scanner-788f5ae0.css"
+      "assets/scanner-8d49902c.css"
     ],
     "dynamicImports": [
       "node_modules/qr-scanner/qr-scanner-worker.min.js"
     ],
-    "file": "assets/scanner-c1a22b67.js",
+    "file": "assets/scanner-94ee1871.js",
+    "imports": [
+      "_bootstrap-fa0c509c.js"
+    ],
     "isEntry": true,
     "src": "resources/js/scanner.js"
   }
