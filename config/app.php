@@ -58,7 +58,7 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'asset_url' => env('APP_URL', 'http://localhost') . '/assets',
+    // 'asset_url' => env('APP_URL', 'http://localhost') . ',
 
     /*
     |--------------------------------------------------------------------------
@@ -194,7 +194,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 

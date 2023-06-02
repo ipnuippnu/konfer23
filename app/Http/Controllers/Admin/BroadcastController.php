@@ -50,7 +50,7 @@ class BroadcastController extends Controller
     public function __invoke()
     {
         return view('admin.broadcast', [
-            'logs' => Activity::where('log_name', 'broadcast')->latest()->get(),
+            'logs' => Activity::with('causer')->where('log_name', 'broadcast')->latest()->get(),
             'can_send_revisions' => Delegator::whereDoesntHave('step', fn($q) => $q->where('step', DelegatorStep::$DITERIMA))->count() > 0,
             'can_send_unpaids' => Delegator::whereNull('payment_id')->count() > 0
         ]);

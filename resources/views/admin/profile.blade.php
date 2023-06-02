@@ -149,7 +149,7 @@
 @endsection
 
 @push('header')
-    <link rel="stylesheet" href="{{ asset('js/plugin/cropper/cropper.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/plugin/cropper/cropper.min.css') }}">
     <style>
         #profile-container{
             position: relative;
@@ -166,7 +166,7 @@
 @endpush
 
 @push('footer')
-    <script src="{{ asset('js/plugin/cropper/cropper.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugin/cropper/cropper.min.js') }}"></script>
     <script>
         let changePhoto = () => {
             document.querySelector('#input-foto').click()   

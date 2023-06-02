@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.1",
         "ext-imagick": "*",
+        "beyondcode/laravel-websockets": "^1.14",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "ipnuippnu/package_sso": "dev-main",
@@ -15,6 +16,7 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
         "maatwebsite/excel": "^3.1",
+        "pusher/pusher-php-server": "^7.2",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-activitylog": "^4.7",
         "tecnickcom/tcpdf": "^6.6",
@@ -23,8 +25,9 @@
         "yajra/laravel-datatables-oracle": "^10.4"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.8",
+        "beyondcode/laravel-query-detector": "^1.7",
         "fakerphp/faker": "^1.9.1",
+        "itsgoingd/clockwork": "^5.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",

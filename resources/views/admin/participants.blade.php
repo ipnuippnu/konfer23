@@ -64,7 +64,7 @@
 @endsection
 
 @push('footer')
-	<script src="{{ asset('js/plugin/datatables/datatables.min.js') }}"></script>
+	<script src="{{ asset('assets/js/plugin/datatables/datatables.min.js') }}"></script>
     <script>
         $('#add-row').DataTable({
             processing: true,

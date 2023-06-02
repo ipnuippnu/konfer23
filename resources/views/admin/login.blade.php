@@ -7,13 +7,13 @@
     <title>Laman Mimin</title>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <meta name="robots" content="nofollow,noindex">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/atlantis.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/atlantis.css') }}">
     <style>
         body::before{
             content: " ";   
             position: fixed;
-            background: url("{{ asset('img/konferab_logo_white.webp') }}");
+            background: url("{{ asset('assets/img/konferab_logo_white.webp') }}");
             background-size: cover;
             width: 300px;
             height: 300px;
@@ -48,7 +48,7 @@
                 <div class="form-group">
                     <p class="mb-0 text-center">Bukan Panitia?</p>
                     <a href="{{ route('/') }}" class="btn btn-block btn-primary">
-                        <img src="{{ asset('img/konferab_logo_white.webp') }}" height="24">
+                        <img src="{{ asset('assets/img/konferab_logo_white.webp') }}" height="24">
                         OTW Portal Peserta
                     </a>
                 </div>
@@ -56,9 +56,9 @@
 
         </div>
     </div>
-    <script src="{{ asset('js/plugin/axios/axios.min.js') }}"></script>
-    <script src="{{ asset('js/plugin/sweetalert2/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('js/yunyun-2.js') }}"></script>
+    <script src="{{ asset('assets/js/plugin/axios/axios.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugin/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/yunyun-2.js') }}"></script>
     <script>
 
         document.querySelector('form').addEventListener('submit', function(e) {

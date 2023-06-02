@@ -28,4 +28,6 @@ abstract class AdminPermission
     const EVENT_READ = "admin.event.read";
     const EVENT_ADD = "admin.event.add";
     const EVENT_DELETE = "admin.event.delete";
+
+    const SCANNER = "admin.scanner";
 }

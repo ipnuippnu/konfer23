@@ -40,7 +40,7 @@ class User extends Authenticatable
         return Attribute::make(get: function($val){
             if($val != null && Storage::disk('public')->exists($val)) return Storage::disk('public')->url($val);
 
-            return asset('img/admin-default.png');
+            return asset('assets/img/admin-default.png');
         });
     }
 

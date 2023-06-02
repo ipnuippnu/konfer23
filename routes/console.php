@@ -8,6 +8,9 @@ use App\Models\DelegatorStep;
 use App\Models\Guest;
 use Carbon\Carbon;
 use App\Models\Participant;
+use App\Models\User;
+use App\Permissions\AdminPermission;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Intervention\Image\Facades\Image;
@@ -223,5 +226,39 @@ Artisan::command('toganjelto', function(){
     
 
     Storage::put('toganjelto.pdf', $pdf->Output('', 'S'));
+
+});
+
+Artisan::command('akun:scanner', function(){
+
+    function generateUsername() {
+        $username = "Sekretariat";
+        $number = 1;
+      
+        // Mencari nomor urut yang belum digunakan
+        while (User::where('name', $username . " " . str_pad($number, 2, '0', STR_PAD_LEFT))->exists()) {
+          $number++;
+        }
+      
+        // Menghasilkan nama pengguna dengan nomor urut yang tepat
+        return str_pad($number, 2, '0', STR_PAD_LEFT);
+      }
+
+    $no_urut = generateUsername();
+    $sandi = 'lalisandine';
+
+    $user = User::create([
+        'permission' => [ AdminPermission::SCANNER ],
+        'name' => "Sekretariat $no_urut",
+        'jabatan' => 'Hanya Pemindai',
+        'password' => bcrypt($sandi),
+        'email' => $email = strtolower($no_urut."@qr.com")
+    ]);
+
+    dump([
+        'nama' => "Sekretariat $no_urut",
+        'email' => $email,
+        'sandi' => $sandi
+    ], Hash::check($sandi, $user->password));
 
 });

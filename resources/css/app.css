@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#badan{
+    @apply relative;
+}
+
+#badan > img{
+    @apply h-screen w-screen object-cover absolute;
+}
+
+@font-face {
+    font-family: 'FontDefault';
+    src: url('../templates/fonts/bold.otf');
+}
+
+
+@layer base {
+    .font-outline-2 {
+      -webkit-text-stroke: 4px #fff;
+      paint-order: stroke fill;
+    }
+    .font-outline-4 {
+      -webkit-text-stroke: 8px #fff;
+      paint-order: stroke fill;
+    }
+}

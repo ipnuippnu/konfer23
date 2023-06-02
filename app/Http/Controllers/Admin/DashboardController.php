@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Delegator;
 use App\Models\DelegatorStep;
 use App\Models\Participant;
+use App\Permissions\AdminPermission;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -16,6 +17,11 @@ class DashboardController extends Controller
 {
     public function __invoke(Request $request)
     {
+        if(count(auth()->user()->permission) === 1 && auth()->user()->permission[0] == AdminPermission::SCANNER)
+        {
+            return redirect()->route('admin.qr.index');
+        }
+
         $totalPeserta = Participant::count();
 
         $perKecamatan = Cache::remember('perKecamatan', 60, function() use($totalPeserta) {
@@ -54,7 +60,7 @@ class DashboardController extends Controller
                 'data' => [$sudah, $belum]
             ],
             'perkecamatan' => $perKecamatan,
-            'activities' => Activity::latest()->limit(5)->get()
+            'activities' => Activity::with('causer')->latest()->limit(5)->get()
         ]);
     }
 }

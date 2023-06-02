@@ -154,10 +154,10 @@
 @push('footer')
 
 <!-- Chart JS -->
-<script src="{{ asset("js/plugin/chart.js/chart.min.js") }}"></script>
+<script src="{{ asset("assets/js/plugin/chart.js/chart.min.js") }}"></script>
 
 <!-- Chart Circle -->
-<script src="{{ asset("js/plugin/chart-circle/circles.min.js") }}"></script>
+<script src="{{ asset("assets/js/plugin/chart-circle/circles.min.js") }}"></script>
 
 <script>
 

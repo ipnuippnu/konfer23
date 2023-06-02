@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\QrCodeScanned;
 use App\Http\Controllers\Admin\BroadcastController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DelegatorController;
@@ -10,11 +11,11 @@ use App\Http\Controllers\Admin\ParticipantController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RecapController;
-use App\Http\Controllers\Admin\TestQrController;
+use App\Http\Controllers\Admin\ScannerController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PendaftaranController;
-use App\Permissions;
+use App\Models\Code;
 use App\Permissions\AdminPermission;
 use App\Permissions\FilePermission;
 use Illuminate\Support\Facades\Gate;
@@ -92,6 +93,9 @@ Route::group(['prefix' => sha1('YunYun'), 'as' => 'admin.'], function(){
         Route::apiResource('guests', GuestController::class);
         Route::post('guests/download', [GuestController::class, 'download'])->name('guests.download');
 
+        //Scanner
+        Route::apiResource('qr', ScannerController::class);
+
     });
 
 
@@ -138,15 +142,8 @@ Route::group(['as' => 'file.', 'prefix' => sha1('osas')], function(){
     })->name('bukti_pembayaran');
 
 
-    //Scanner
-
-
 });
 
-
-/**
- * 
- * !!DARURAT TIDAK ADA AUTH
- * 
- */
-Route::apiResource('qr', TestQrController::class);
+Route::get('gas', function(){
+    QrCodeScanned::broadcast(Code::first());
+});

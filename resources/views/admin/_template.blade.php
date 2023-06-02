@@ -9,11 +9,11 @@
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
 	<!-- Fonts and icons -->
-	<script src="{{ asset("js/plugin/webfont/webfont.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/webfont/webfont.min.js") }}"></script>
 	<script>
 		WebFont.load({
 			google: {"families":["Lato:300,400,700,900"]},
-			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['{{ asset("css/fonts.css?v2") }}', '{{ asset("css/fa.min.css") }}']},
+			custom: {"families":["Flaticon", "simple-line-icons"], urls: ['{{ asset("assets/css/fonts.css?v2") }}']},
 			active: function() {
 				sessionStorage.fonts = true;
 			}
@@ -21,8 +21,18 @@
 	</script>
 
 	<!-- CSS Files -->
-	<link rel="stylesheet" href="{{ asset("css/bootstrap.min.css") }}">
-	<link rel="stylesheet" href="{{ asset("css/atlantis.min.css") }}">
+	<link rel="stylesheet" href="{{ asset("assets/css/bootstrap.min.css") }}">
+	<link rel="stylesheet" href="{{ asset("assets/css/atlantis.min.css") }}">
+	<link rel="stylesheet" href="{{ asset('assets/css/fa.min.css') }}">
+
+	<style>
+		.form-check [type="checkbox"] + .form-check-sign::after, .form-check [type="checkbox"]:checked + .form-check-sign::after, .form-check [type="checkbox"]:not(:checked) + .form-check-sign::after
+		{
+			font-family: 'Font Awesome 5 Free' !important;
+			content: "\f164" !important;
+			font-weight: bolder !important;
+		}
+	</style>
 
 	@stack('header')
 
@@ -34,7 +44,7 @@
 			<div class="logo-header" data-background-color="blue">
 				
 				<a href="{{ route('admin./') }}" class="logo">
-					<img src="{{ asset("img/konferab_logo_white.webp") }}" alt="navbar brand" class="navbar-brand" height="36">
+					<img src="{{ asset("assets/img/konferab_logo_white.webp") }}" alt="navbar brand" class="navbar-brand" height="36">
 					<span class="align-middle font-weight-bold text-white">PENGELOLA</span>
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -153,6 +163,16 @@
 						</li>
 						@endcan
 						
+						@can(AdminPermission::SCANNER)
+						<li class="nav-item {{ active(['admin.qr.*']) }}">
+							<a href="{{ route('admin.qr.index') }}" target="_blank">
+								<i class="fas fa-qrcode"></i>
+								<p>Pemindai</p>
+								<span class="badge badge-success">Gaslah</span>
+							</a>
+						</li>
+						@endcan
+						
 						<li class="nav-section">
 							<span class="sidebar-mini-icon">
 								<i class="fa fa-ellipsis-h"></i>
@@ -254,31 +274,31 @@
 		
 	</div>
 	<!--   Core JS Files   -->
-	<script src="{{ asset("js/core/jquery.3.2.1.min.js") }}"></script>
-	<script src="{{ asset("js/core/popper.min.js") }}"></script>
-	<script src="{{ asset("js/core/bootstrap.min.js") }}"></script>
+	<script src="{{ asset("assets/js/core/jquery.3.2.1.min.js") }}"></script>
+	<script src="{{ asset("assets/js/core/popper.min.js") }}"></script>
+	<script src="{{ asset("assets/js/core/bootstrap.min.js") }}"></script>
 
 	<!-- jQuery UI -->
-	<script src="{{ asset("js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js") }}"></script>
-	<script src="{{ asset("js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js") }}"></script>
 
 	<!-- jQuery Scrollbar -->
-	<script src="{{ asset("js/plugin/jquery-scrollbar/jquery.scrollbar.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js") }}"></script>
 
 	<!-- Bootstrap Notify -->
-	<script src="{{ asset("js/plugin/bootstrap-notify/bootstrap-notify.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js") }}"></script>
 
 	<!-- Sweet Alert 2 -->
-	<script src="{{ asset("js/plugin/sweetalert2/sweetalert2.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/sweetalert2/sweetalert2.min.js") }}"></script>
 
 	<!-- Axios -->
-	<script src="{{ asset("js/plugin/axios/axios.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/axios/axios.min.js") }}"></script>
 
 	<!-- Atlantis JS -->
-	<script src="{{ asset("js/atlantis.min.js") }}"></script>
+	<script src="{{ asset("assets/js/atlantis.min.js") }}"></script>
 
 	<!-- MyCustomScript -->
-	<script src="{{ asset("js/yunyun-2.js") }}"></script>
+	<script src="{{ asset("assets/js/yunyun-2.js") }}"></script>
 
 	@stack('footer')
 </body>

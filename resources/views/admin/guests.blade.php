@@ -147,7 +147,7 @@
 
 @push('footer')
 
-	<script src="{{ asset('js/plugin/datatables/datatables.min.js') }}"></script>
+	<script src="{{ asset('assets/js/plugin/datatables/datatables.min.js') }}"></script>
     <script src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.min.js"></script>
     
     <script>

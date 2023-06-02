@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Perbaikan - {{ config('app.name') }}</title>
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <style>
         html, body{
             background: #32384C;
@@ -29,10 +29,10 @@
     <div class="container d-flex">
         <div class="row w-100 mx-auto">
             <div class="col-sm-6 my-auto d-sm-block d-none">
-                <img src="{{ asset('img/col1.png') }}" class="img-fluid img1" alt="Maskot YMF">
+                <img src="{{ asset('assets/img/col1.png') }}" class="img-fluid img1" alt="Maskot YMF">
             </div>
             <div class="col-sm-6 my-auto">
-                <img src="{{ asset('img/col2.svg') }}" class="img-fluid img2" alt="Maskot YMF">
+                <img src="{{ asset('assets/img/col2.svg') }}" class="img-fluid img2" alt="Maskot YMF">
             </div>
         </div>
     </div>

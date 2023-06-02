@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Interfaces\AsImage;
+use App\Interfaces\AsPdf;
 use Exception;
 
 trait Generator
@@ -18,9 +19,10 @@ trait Generator
     {
         $obj = new static(...$args);
         if(in_array(AsImage::class, class_implements($obj)))
-        {
             return $obj->image();
-        }
+
+        if(in_array(AsPdf::class, class_implements($obj)))
+            return $obj->pdf();
 
         throw new Exception('Tidak mengimplementasikan interface');
     }

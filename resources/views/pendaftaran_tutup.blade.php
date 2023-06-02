@@ -16,7 +16,7 @@
                 <div class="p-2">
                     <div class="text-center">
                         <div class="display-4 mb-3 text-danger" style="position: relative">
-                            <img src="{{ asset('img/konferab_logo_white.webp') }}" alt="" width="150">
+                            <img src="{{ asset('assets/img/konferab_logo_white.webp') }}" alt="" width="150">
                             <i class="fas fa-times-circle" style="position:
                             absolute; text-shadow: 0 0 10px #0007;transform: translateX(-58px); bottom: 0"></i>
                         </div>

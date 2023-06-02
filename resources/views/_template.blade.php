@@ -7,11 +7,11 @@
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
 	<!-- Fonts and icons -->
-	<script src="{{ asset("js/plugin/webfont/webfont.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/webfont/webfont.min.js") }}"></script>
 	<script>
 		WebFont.load({
 			google: {"families":["Lato:300,400,700,900"]},
-			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['{{ asset("css/fonts.min.css") }}']},
+			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['{{ asset("assets/css/fonts.min.css") }}']},
 			active: function() {
 				sessionStorage.fonts = true;
 			}
@@ -19,8 +19,8 @@
 	</script>
 
 	<!-- CSS Files -->
-	<link rel="stylesheet" href="{{ asset("css/bootstrap.min.css") }}">
-	<link rel="stylesheet" href="{{ asset("css/atlantis.min.css") }}">
+	<link rel="stylesheet" href="{{ asset("assets/css/bootstrap.min.css") }}">
+	<link rel="stylesheet" href="{{ asset("assets/css/atlantis.min.css") }}">
 
 </head>
 <body data-background-color="dark">
@@ -30,7 +30,7 @@
 			<div class="logo-header" data-background-color="dark2">
 				
 				<a href="/" class="logo">
-					<img src="{{ asset("img/konferab_logo_white.webp") }}" alt="navbar brand" class="navbar-brand" height="36">
+					<img src="{{ asset("assets/img/konferab_logo_white.webp") }}" alt="navbar brand" class="navbar-brand" height="36">
 					<span class="align-middle font-weight-bold text-white">KONFERCAB</span>
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,7 +88,7 @@
 										<div class="notif-center">
 											<a href="#">
 												<div class="notif-img"> 
-													<img src="{{ asset("img/jm") }}_denis.jpg" alt="Img Profile">
+													<img src="{{ asset("assets/img/jm") }}_denis.jpg" alt="Img Profile">
 												</div>
 												<div class="notif-content">
 													<span class="subject">Jimmy Denis</span>
@@ -100,7 +100,7 @@
 											</a>
 											<a href="#">
 												<div class="notif-img"> 
-													<img src="{{ asset("img/chadengle.jpg") }}" alt="Img Profile">
+													<img src="{{ asset("assets/img/chadengle.jpg") }}" alt="Img Profile">
 												</div>
 												<div class="notif-content">
 													<span class="subject">Chad</span>
@@ -112,7 +112,7 @@
 											</a>
 											<a href="#">
 												<div class="notif-img"> 
-													<img src="{{ asset("img/mlane.jpg") }}" alt="Img Profile">
+													<img src="{{ asset("assets/img/mlane.jpg") }}" alt="Img Profile">
 												</div>
 												<div class="notif-content">
 													<span class="subject">Jhon Doe</span>
@@ -124,7 +124,7 @@
 											</a>
 											<a href="#">
 												<div class="notif-img"> 
-													<img src="{{ asset("img/talha.jpg") }}" alt="Img Profile">
+													<img src="{{ asset("assets/img/talha.jpg") }}" alt="Img Profile">
 												</div>
 												<div class="notif-content">
 													<span class="subject">Talha</span>
@@ -174,7 +174,7 @@
 											</a>
 											<a href="#">
 												<div class="notif-img"> 
-													<img src="{{ asset("img/profile") }}2.jpg" alt="Img Profile">
+													<img src="{{ asset("assets/img/profile") }}2.jpg" alt="Img Profile">
 												</div>
 												<div class="notif-content">
 													<span class="block">
@@ -327,44 +327,44 @@
 		
 	</div>
 	<!--   Core JS Files   -->
-	<script src="{{ asset("js/core/jquery.3.2.1.min.js") }}"></script>
-	<script src="{{ asset("js/core/popper.min.js") }}"></script>
-	<script src="{{ asset("js/core/bootstrap.min.js") }}"></script>
+	<script src="{{ asset("assets/js/core/jquery.3.2.1.min.js") }}"></script>
+	<script src="{{ asset("assets/js/core/popper.min.js") }}"></script>
+	<script src="{{ asset("assets/js/core/bootstrap.min.js") }}"></script>
 
 	<!-- jQuery UI -->
-	<script src="{{ asset("js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js") }}"></script>
-	<script src="{{ asset("js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js") }}"></script>
 
 	<!-- jQuery Scrollbar -->
-	<script src="{{ asset("js/plugin/jquery-scrollbar/jquery.scrollbar.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js") }}"></script>
 
 
 	<!-- Chart JS -->
-	<script src="{{ asset("js/plugin/chart.js/chart.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/chart.js/chart.min.js") }}"></script>
 
 	<!-- jQuery Sparkline -->
-	<script src="{{ asset("js/plugin/jquery.sparkline/jquery.sparkline.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js") }}"></script>
 
 	<!-- Chart Circle -->
-	<script src="{{ asset("js/plugin/chart-circle/circles.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/chart-circle/circles.min.js") }}"></script>
 
 	<!-- Datatables -->
-	<script src="{{ asset("js/plugin/datatables/datatables.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/datatables/datatables.min.js") }}"></script>
 
 	<!-- Bootstrap Notify -->
-	<script src="{{ asset("js/plugin/bootstrap-notify/bootstrap-notify.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js") }}"></script>
 
 	<!-- Sweet Alert 2 -->
-	<script src="{{ asset("js/plugin/sweetalert2/sweetalert2.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/sweetalert2/sweetalert2.min.js") }}"></script>
 
 	<!-- Axios -->
-	<script src="{{ asset("js/plugin/axios/axios.min.js") }}"></script>
+	<script src="{{ asset("assets/js/plugin/axios/axios.min.js") }}"></script>
 
 	<!-- Atlantis JS -->
-	<script src="{{ asset("js/atlantis.min.js") }}"></script>
+	<script src="{{ asset("assets/js/atlantis.min.js") }}"></script>
 
 	<!-- MyCustomScript -->
-	<script src="{{ asset("js/yunyun-2.js") }}"></script>
+	<script src="{{ asset("assets/js/yunyun-2.js") }}"></script>
 
 	@stack('footer')
 </body>

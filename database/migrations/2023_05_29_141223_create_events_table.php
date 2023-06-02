@@ -12,8 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('events', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->string('name');
+            $table->string('target_type');
+            $table->json('target_ids')->nullable();
+            $table->timestamp('event_start')->nullable();
+            $table->timestamp('event_end')->nullable();
+            $table->text('keterangan')->nullable();
+            $table->json('params')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
