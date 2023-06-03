@@ -260,7 +260,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if(!busy && queue.length > 0)
         {
             busy = true
-            axios.post('', queue[0]).then(function(){
+            axios({
+                url: '',
+                data: queue[0],
+                timeout: 1000
+            }).then(function(){
                 queue.splice(0, 1)
             }).catch(function(){
 
