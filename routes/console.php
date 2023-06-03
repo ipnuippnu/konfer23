@@ -300,3 +300,31 @@ Artisan::command('kirimqr', function(){
             }
         });
 });
+
+Artisan::command('zip:ipnu', function(){
+
+    $zip = new ZipArchive();
+    $zip->open(Storage::url('sp_ipnu'), ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+    foreach(Delegator::all() as $delegator)
+    {
+        $zip->addFromString($delegator->name, Storage::get($delegator->surat_pengesahan));
+    }
+
+    $zip->close();
+
+});
+
+Artisan::command('zip:ippnu', function(){
+
+    $zip = new ZipArchive();
+    $zip->open(Storage::url('sp_ippnu'), ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+    foreach(Delegator::all() as $delegator)
+    {
+        $zip->addFromString($delegator->name, Storage::get($delegator->surat_pengesahan));
+    }
+
+    $zip->close();
+
+});
