@@ -19,6 +19,7 @@
         "pusher/pusher-php-server": "^7.2",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-activitylog": "^4.7",
+        "spatie/laravel-backup": "^8.1",
         "tecnickcom/tcpdf": "^6.6",
         "watson/active": "^7.0",
         "yajra/laravel-datatables-editor": "^1.25",

@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\QrCodeScanned;
+use App\Exports\EventExport;
 use App\Http\Controllers\Admin\BroadcastController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DelegatorController;
@@ -16,11 +17,13 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PendaftaranController;
 use App\Models\Code;
+use App\Models\Event;
 use App\Permissions\AdminPermission;
 use App\Permissions\FilePermission;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -145,5 +148,5 @@ Route::group(['as' => 'file.', 'prefix' => sha1('osas')], function(){
 });
 
 Route::get('gas', function(){
-    QrCodeScanned::broadcast(Code::first());
+    return Excel::download(new EventExport(Event::latest()->first()), 'a.xlsx');
 });
