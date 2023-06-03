@@ -12,6 +12,7 @@ use App\Models\Event;
 use App\Models\Guest;
 use App\Models\Participant;
 use App\Models\Payment;
+use App\Types\EventParams;
 use App\Types\EventTargetType;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -55,10 +56,20 @@ class ScannerController extends Controller
             ($event->target_type === EventTargetType::PAYMENTS && $code->content instanceof Payment)
         )
         {
-            // if($code->content instanceof Guest)
-            // {
-            //     broadcast(new QrGuest($code->content));
-            // }
+            if($code->content instanceof Participant && $event->params->contains(EventParams::FILTER_PIMPINAN))
+            {
+                $semua_peserta = $code->content->delegator->participants->pluck('id');
+
+                $result = DB::table('eventables')->where('event_id', $event->id)->where('eventable_type', Participant::class)->whereIn('eventable_id', $semua_peserta)->get();
+                if($result->count())
+                {
+                    activity('qr')->on($code->content)->log('QR Dilarang Lebih Dari Satu');
+                    return response()->json([
+                        'status' => false,
+                        'message' => "Satu pimpinan hanya boleh satu orang. (" . Participant::find($result->first()->eventable_id)->name . ")"
+                    ], 200);
+                }
+            }
 
             DB::beginTransaction();
             $event->members()->syncWithoutDetaching($code->content);
@@ -68,7 +79,7 @@ class ScannerController extends Controller
             activity('qr')->on($code->content)->log('QR Dipindai');
             return response([
                 'status' => true,
-                'message' => ($code->content->name ?? $code->content->id) . " berhasil dicatat"
+                'message' => ($code->content->name ?? $code->content->id) . " berhasil dicatat. (" . $code->content->delegator->name . ")"
             ], 200);
         }
 

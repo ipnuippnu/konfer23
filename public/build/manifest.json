@@ -32,7 +32,7 @@
     "dynamicImports": [
       "node_modules/qr-scanner/qr-scanner-worker.min.js"
     ],
-    "file": "assets/scanner-d0add61a.js",
+    "file": "assets/scanner-eac3bf77.js",
     "imports": [
       "resources/js/qr.js"
     ],
