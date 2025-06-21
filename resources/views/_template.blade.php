@@ -312,14 +312,14 @@
 					<nav class="pull-left">
 						<ul class="nav">
 							<li class="nav-item">
-								<a class="nav-link" href="https://wa.me/6282264637783">
+								<a class="nav-link" href="https://wa.me/6285175303855">
 									Butuh Bantuan
 								</a>
 							</li>
 						</ul>
 					</nav>
 					<div class="copyright ml-auto">
-						2023 &copy; <a href="https://pelajartrenggalek.or.id">PC IPNU-IPPNU Trenggalek</a>, Desain oleh <a href="https://www.themekita.com">ThemeKita</a>
+						2025 &copy; <a href="https://pelajartrenggalek.or.id">PC IPNU-IPPNU Trenggalek</a>, Desain oleh <a href="https://www.themekita.com">ThemeKita</a>
 					</div>				
 				</div>
 			</footer>

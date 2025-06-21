@@ -37,6 +37,7 @@
                         <table id="add-row" class="display table table-stripped" >
                             <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th>Nama Lengkap</th>
                                     <th>Jabatan</th>
                                     <th>Tempat / Tgl. Lahir</th>
@@ -46,6 +47,7 @@
                             </thead>
                             <tfoot>
                                 <tr>
+                                    <th>#</th>
                                     <th>Nama Lengkap</th>
                                     <th>Jabatan</th>
                                     <th>Tempat / Tgl. Lahir</th>
@@ -71,6 +73,18 @@
             serverSide: true,
             ajax: "",
             columns: [
+                { searchable: false, orderable: false, render(val, type, row){
+                    return `
+                    
+                    <div class="d-flex">
+                        <a href="{{ \Storage::url('') }}${row.foto_resmi}" target="_blank" class="btn btn-primary btn-sm mr-1">Foto</a>
+                ${row.sertifikat_makesta ? `<a href="{{ \Storage::url('') }}${row.sertifikat_makesta}" target="_blank" class="btn btn-secondary btn-sm mr-1">S. MAKESTA</a>` : '' }
+                        
+
+                    </div>
+
+                    `
+                }},
                 { data: 'name' },
                 { data: 'jabatan' },
                 { data: 'born_date', render (a, b, c) {
@@ -84,8 +98,8 @@
                     
                     <div class="d-flex">
                         <a href="{{ route('admin.participants.index') }}/${row.id}?type=pdf" target="_blank" class="btn btn-primary btn-sm mr-1">PDF</a>
-                        <a href="{{ route('admin.participants.index') }}/${row.id}?type=front" target="_blank" class="btn btn-success btn-sm mr-1">JPG Depan</a>
-                        <a href="{{ route('admin.participants.index') }}/${row.id}?type=back" target="_blank" class="btn btn-secondary btn-sm mr-1">JPG Belakang</a>
+                        <a href="{{ route('admin.participants.index') }}/${row.id}?type=front" target="_blank" class="btn btn-success btn-sm mr-1">Depan</a>
+                        <a href="{{ route('admin.participants.index') }}/${row.id}?type=back" target="_blank" class="btn btn-secondary btn-sm mr-1">Belakang</a>
                     </div>
 
                     `

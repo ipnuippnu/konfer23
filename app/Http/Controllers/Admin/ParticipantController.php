@@ -17,7 +17,7 @@ class ParticipantController extends Controller
     public function index(Request $request)
     {
         if($request->ajax())
-            return datatables()->of(Participant::with(['delegator' => fn($q) => $q->select('delegators.id', 'delegators.name', 'delegators.address_code')])->select('participants.id', 'participants.name', 'participants.jabatan', 'participants.delegator_id', 'participants.born_date', 'participants.born_place'))->make(true);
+            return datatables()->of(Participant::with(['delegator' => fn($q) => $q->select('delegators.id', 'delegators.name', 'delegators.address_code')])->select('participants.id', 'participants.name', 'participants.jabatan', 'participants.delegator_id', 'participants.born_date', 'participants.born_place', 'participants.sertifikat_makesta', 'participants.foto_resmi'))->make(true);
 
         return view('admin.participants');
     }

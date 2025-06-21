@@ -266,7 +266,7 @@
 						</ul>
 					</nav>
 					<div class="copyright ml-auto">
-						2023 &copy; <a href="https://pelajartrenggalek.or.id">PC IPNU-IPPNU Trenggalek</a>, Desain oleh <a href="https://www.themekita.com">ThemeKita</a>
+						2025 &copy; <a href="https://pelajartrenggalek.or.id">PC IPNU-IPPNU Trenggalek</a>, Desain oleh <a href="https://www.themekita.com">ThemeKita</a>
 					</div>				
 				</div>
 			</footer>

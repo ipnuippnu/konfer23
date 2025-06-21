@@ -24,11 +24,12 @@ class ParticipantRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'data' => ['required', 'array', 'min:1'],
-            'data.*.name' => 'nullable|regex:/^[a-z ,.\'-]+$/i',
-            'data.*.born_date' => 'nullable|date|before:today',
-            'data.*.born_place' => 'nullable|regex:/^[a-z ,.\'-]+$/i',
+            'data.*.user' => 'nullable',
+            'data.*.foto_resmi' => 'nullable|image',
+            'data.*.sertifikat_makesta' => 'nullable|mimetypes:application/pdf',
             'data.*.jabatan' => 'nullable|in:ketua,sekretaris,bendahara,anggota',
 
             'phone' => ["required", "regex:/^\+?(0|62)?8\w{8,11}$/i"],

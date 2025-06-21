@@ -105,7 +105,7 @@
                 $(row).find('.cek-berkas').click(function(){
                     Swal.fire({
                         title: 'Validasi Pembayaran',
-                        html: `Pastikan antara bukti pendaftaran dan jumlah tagihan sudah sesuai! Pastikan juga pembayaran sudah masuk di rekening Panitia (BRI: Alfiah Yunia Pratama)!`,
+                        html: `Pastikan antara bukti pendaftaran dan jumlah tagihan sudah sesuai! Pastikan juga pembayaran sudah masuk di rekening Panitia (BRI: Faridhotuz Zulfa Khu)!`,
                         confirmButtonText: 'Sesuai, Verifikasi!',
                         denyButtonText: 'Tidak Sesuai, Perbaiki!',
                         showDenyButton: true

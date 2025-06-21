@@ -4,7 +4,7 @@
 @section('content')
 <div class="mt-2 mb-4">
     <h2 class="text-white pb-2">Assalamu'alaikum Wr. Wb. {{ \Sso::credential()->gender === 'Laki-laki' ? 'rekan' : 'rekanita' }}!</h2>
-    <h5 class="text-white op-7 mb-4">Laman ini merupakan portal pendaftaran kegiatan Konferensi Cabang (KONFERCAB) PC IPNU-IPPNU Trenggalek masa khidmat 2021-2023.</h5>
+    <h5 class="text-white op-7 mb-4">Laman ini merupakan portal pendaftaran kegiatan Konferensi Cabang (KONFERCAB) PC IPNU-IPPNU Trenggalek XXI & XX.</h5>
 </div>
 <div class="row">
     <div class="col-md-8">
@@ -34,7 +34,7 @@
                     @elseif($step == \DelegatorStep::$LUNAS)
                     <div class="text-center">
                         <div class="display-2 mb-3"><i class="fas fa-check"></i></div>
-                        <p class="h4">Pendaftaran berhasil. <br> Kami akan mengirimkan bukti pembayaran sebelum tanggal <b>31 Mei 2023</b> melalui Nomor WhatsApp yang sudah dimasukkan. Bukti pembayaran tersebut digunakan sebagai persyaratan pengambilan fasilitas pada hari pelaksanaan.</p>
+                        <p class="h4">Pendaftaran berhasil. <br> Kami akan mengirimkan bukti pembayaran sebelum tanggal <b>1 Juli 2025</b> melalui Nomor WhatsApp yang sudah dimasukkan. Bukti pembayaran tersebut digunakan sebagai persyaratan pengambilan fasilitas pada hari pelaksanaan.</p>
                         <a href="{{ route('bayar') }}" class="mt-2 btn btn-white btn-lg font-weight-bold">Lihat Rincian Pembayaran</a>
                     </div>
                     @elseif($step == \DelegatorStep::$DITOLAK)

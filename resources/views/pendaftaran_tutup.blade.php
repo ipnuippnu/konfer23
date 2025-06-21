@@ -4,7 +4,7 @@
 @section('content')
 <div class="mt-2 mb-4">
     <h2 class="text-white pb-2">Assalamu'alaikum Wr. Wb.</h2>
-    <h5 class="text-white op-7 mb-4">Laman ini merupakan portal pendaftaran kegiatan Konferensi Cabang (KONFERCAB) PC IPNU-IPPNU Trenggalek masa khidmat 2021-2023.</h5>
+    <h5 class="text-white op-7 mb-4">Laman ini merupakan portal pendaftaran kegiatan Konferensi Cabang (KONFERCAB) PC IPNU-IPPNU Trenggalek XXI & XX.</h5>
 </div>
 <div class="row">
     <div class="col-md-8">

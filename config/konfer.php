@@ -2,8 +2,8 @@
 
 return [
 
-    'htm' => 60000,
-    'pendaftaran_sampai' => env('PENDAFTARAN_SAMPAI', '2023-05-13'),
+    'htm' => 140000,
+    'pendaftaran_sampai' => env('PENDAFTARAN_SAMPAI', '2025-06-22'),
     'kecamatan' => [
         '35.03.01' => 'Panggul',
         '35.03.02' => 'Munjungan',
@@ -24,9 +24,9 @@ return [
     'wa_api' => 'http://203.130.251.21:3000/send',
 
     'rekening' => [
-        'name' => 'Alfiah Yunia Pratama',
+        'name' => 'FARIDHOTUZ ZULFA KHU',
         'brand' => 'BRI',
-        'no' => '7414-01-010463-53-7'
+        'no' => '655101031883533'
     ]
 
 ];

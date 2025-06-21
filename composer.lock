@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "42917d95098df82b6f0b0f3cd4193265",
+    "content-hash": "909494aa53ed1c487053eeba069c0849",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2858,6 +2858,49 @@
                 }
             ],
             "time": "2023-02-06T13:46:10+00:00"
+        },
+        {
+            "name": "mpyw/uuid-ulid-converter",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mpyw/uuid-ulid-converter.git",
+                "reference": "45cbfe5be1404d08fefeaaa34983ad397a167aa1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mpyw/uuid-ulid-converter/zipball/45cbfe5be1404d08fefeaaa34983ad397a167aa1",
+                "reference": "45cbfe5be1404d08fefeaaa34983ad397a167aa1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mpyw\\UuidUlidConverter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "mpyw",
+                    "email": "ryosuke_i_628@yahoo.co.jp"
+                }
+            ],
+            "description": "UUID <=> ULID bidirectional converter",
+            "support": {
+                "issues": "https://github.com/mpyw/uuid-ulid-converter/issues",
+                "source": "https://github.com/mpyw/uuid-ulid-converter/tree/v1.1.0"
+            },
+            "time": "2025-03-05T06:07:42+00:00"
         },
         {
             "name": "myclabs/php-enum",
@@ -11096,9 +11139,9 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.0.2",
+        "php": "^8.1",
         "ext-imagick": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }
