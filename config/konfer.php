@@ -27,6 +27,8 @@ return [
         'name' => 'FARIDHOTUZ ZULFA KHU',
         'brand' => 'BRI',
         'no' => '655101031883533'
-    ]
+    ],
+    
+    'saedo_url' => env('SAEDO_URL', 'https://edo.local.com'),
 
 ];

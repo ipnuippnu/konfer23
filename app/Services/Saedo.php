@@ -13,17 +13,7 @@ class Saedo
      */
     public static function getApiUrl(): string
     {
-        return config('saedo.api_url', 'https://edo.local.com');
-    }
-
-    /**
-     * Get the Saedo API key.
-     *
-     * @return string
-     */
-    public static function getApiKey(): string
-    {
-        return config('saedo.api_key', '');
+        return config('konfer.saedo_url');
     }
 
     public static function getInstance()
