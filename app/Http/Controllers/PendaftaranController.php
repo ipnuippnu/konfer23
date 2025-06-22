@@ -21,6 +21,10 @@ class PendaftaranController extends Controller
                 return $credential->address->kecamatan->code;
             }
 
+            if($credential->type == 'pk') {
+                return $credential->address->kecamatan->code;
+            }
+
             return $credential->address->code;
         });
 

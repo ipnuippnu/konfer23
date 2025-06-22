@@ -2,8 +2,8 @@
 
 return [
 
-    'htm' => 140000,
-    'pendaftaran_sampai' => env('PENDAFTARAN_SAMPAI', '2025-06-22'),
+    'htm' => 70000,
+    'pendaftaran_sampai' => env('PENDAFTARAN_SAMPAI', '2025-06-30'),
     'kecamatan' => [
         '35.03.01' => 'Panggul',
         '35.03.02' => 'Munjungan',

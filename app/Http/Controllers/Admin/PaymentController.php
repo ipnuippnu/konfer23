@@ -18,7 +18,7 @@ class PaymentController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()) return datatables()->eloquent(Payment::withCount('participants')->with('delegators')->with('owner'))->addColumn('amount', function($data){
-            return config('konfer.htm');
+            return config('konfer.htm') * $data->participants_count;
         })->filterColumn('anggota', function($q1, $keyword){
             return $q1->whereHas('delegators', fn($q2) => $q2->where(DB::raw('LOWER(name)'), 'LIKE', "%".strtolower($keyword)."%"));
         })->toJson();

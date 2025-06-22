@@ -9,7 +9,7 @@
                 <span class="text badge badge-secondary">Rapat Pimpinan Cabang</span>
             </li>
             <li class="feed-item feed-item-primary">
-                <time class="date" datetime="4-10">1 - 22 Juni 2025</time>
+                <time class="date" datetime="4-10">1 - 24 Juni 2025</time>
                 <span class="text badge badge-primary">Pendaftaran Peserta Konferensi</span>
             </li>
             <li class="feed-item feed-item-danger">

@@ -29,7 +29,7 @@ class PembayaranController extends Controller
             'delegator' => $me,
             'partners' => Delegator::where('address_code', 'LIKE', $me->address_code . '%')->whereNull('payment_id')->get()->map(function(Delegator $delegator) use($me) {
                 return [
-                    "id" => $delegator->id, "name" => $delegator->name, "members" => $jumlah = $delegator->participants()->count(), "price" => config('konfer.htm'), "is_me" => $delegator->id == $me->id
+                    "id" => $delegator->id, "name" => $delegator->name, "members" => $jumlah = $delegator->participants()->count(), "price" => config('konfer.htm') * $jumlah, "is_me" => $delegator->id == $me->id
                 ];
             }),
             'step' => $step = $me->step->step,
@@ -59,12 +59,12 @@ class PembayaranController extends Controller
             'total' => 0
         ]);
 
-        $current += config('konfer.htm');
+        $current += config('konfer.htm') * $delegator->participants()->count();
 
         if(is_array($request->get('ids'))) foreach($request->get('ids') as $id)
         {
             $member = Delegator::find($id);
-            $current += config('konfer.htm');
+            $current += config('konfer.htm') * $member->participants()->count();
             $member->update([
                 'payment_id' => $payment->id
             ]);
