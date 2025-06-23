@@ -77,7 +77,18 @@ class PendaftaranController extends Controller
             return isset($val['user']) && isset($val['foto_resmi']) && isset($val['jabatan']);
         })->filter(function($val) use($availableUsers) {
             return $availableUsers->firstWhere('ulid', $val['user']);
-        })->map(function($val) use($availableUsers) {
+        })->filter(function($val) use($availableUsers) {
+            $datav2 = $availableUsers->firstWhere('ulid', $val['user']);
+            
+            if($datav2['gender'] == 'P') {
+                if(!data_get($val, 'sertifikat_makesta') && !data_get($datav2, 'training.sertifikat_makesta')) {
+                    return false;
+                }
+            }
+
+            return true;
+        })
+        ->map(function($val) use($availableUsers) {
             $datav2 = $availableUsers->firstWhere('ulid', $val['user']);
             return [
                 'name' => $datav2['name'],
