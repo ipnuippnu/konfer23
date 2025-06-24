@@ -81,7 +81,7 @@ class PendaftaranController extends Controller
             $datav2 = $availableUsers->firstWhere('ulid', $val['user']);
             
             if($datav2['gender'] == 'P') {
-                if(!data_get($val, 'sertifikat_makesta') && !data_get($datav2, 'training.sertifikat_makesta')) {
+                if(!data_get($val, 'sertifikat_makesta') && !data_get($datav2, 'training.user_certificate')) {
                     return false;
                 }
             }
