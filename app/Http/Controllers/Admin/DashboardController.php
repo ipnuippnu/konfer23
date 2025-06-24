@@ -31,7 +31,7 @@ class DashboardController extends Controller
                 $warna = sprintf("#%02x%02x%02x", rand(0, 255), rand(0, 255), rand(0, 255));
                 return [
                     'total' => $total = Delegator::where('address_code', 'LIKE', "{$code}%")->withCount('participants')->get()->sum('participants_count'),
-                    'persentase' => $total == 0 ? 0 : round($total / $totalPeserta * 100, 1),
+                    'persentase' => $total == 0 ? 0 : round($total / $totalPeserta->count() * 100, 1),
                     'warna' => $warna,
                     'name' => "Kecamatan {$name}"
                 ];
