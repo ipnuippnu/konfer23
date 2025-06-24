@@ -187,7 +187,7 @@
                 ],
                 datasets: [{
                     label: 'Keuangan',
-                    data: @json([$jumlah['peserta']['ipnu'], $jumlah['peserta']['ipnu']]),
+                    data: @json([$jumlah['peserta']['ipnu'], $jumlah['peserta']['ippnu']]),
                     backgroundColor: [
                         'rgb(54, 162, 54)',
                         'rgb(255, 99, 132)',
