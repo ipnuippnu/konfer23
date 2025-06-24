@@ -29,7 +29,7 @@
                             <h6 class="fw-bold mt-3 mb-0">Terverifikasi (Pimpinan)</h6>
                         </div>
                         <div class="px-2 pb-2 pb-md-0 text-center">
-                            <div id="circles-2"></div>
+                            <canvas id="circles-2"></canvas>
                             <h6 class="fw-bold mt-3 mb-0">Total Peserta</h6>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                                         <tr>
                                             <td colspan="2" class="text-right font-weight-bold">TOTAL</td>
                                             <td class="text-right font-weight-bold">
-                                                {{ $jumlah['peserta'] }} peserta
+                                                {{ $jumlah['peserta']['total'] }} peserta
                                             </td>
                                             <td class="text-right font-weight-bold">
                                                 100%
@@ -176,20 +176,26 @@
 			styleText:true
 		})
 
-		Circles.create({
-			id:'circles-2',
-			radius:45,
-			value:100,
-			maxValue:100,
-			width:7,
-			text: "{{ $jumlah["peserta"] }}",
-			colors:['#f1f1f1', '#2BB930'],
-			duration:400,
-			wrpClass:'circles-wrp',
-			textClass:'circles-text',
-			styleWrapper:true,
-			styleText:true
-		})
+        const totalPeserta = document.querySelector('#circles-2').getContext('2d')
+        new Chart(totalPeserta, {
+            type: 'pie',
+            options: {legend: {display: false}},
+            data: {
+                labels: [
+                    'IPNU',
+                    'IPPNU'
+                ],
+                datasets: [{
+                    label: 'Keuangan',
+                    data: @json([$jumlah['peserta']['ipnu'], $jumlah['peserta']['ipnu']]),
+                    backgroundColor: [
+                        'rgb(54, 162, 54)',
+                        'rgb(255, 99, 132)',
+                    ],
+                    hoverOffset: 4
+                }]
+            }
+        })
 
 		Circles.create({
 			id:'circles-3',
@@ -209,7 +215,6 @@
         const totalKeuangan = document.querySelector('#totalKeuangan').getContext('2d')
         new Chart(totalKeuangan, {
             type: 'pie',
-            options: {legend: {display: false}},
             data: {
                 labels: [
                     'Sudah',

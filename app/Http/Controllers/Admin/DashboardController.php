@@ -22,7 +22,7 @@ class DashboardController extends Controller
             return redirect()->route('admin.qr.index');
         }
 
-        $totalPeserta = Participant::count();
+        $totalPeserta = Participant::query();
 
         $perKecamatan = Cache::remember('perKecamatan', 60, function() use($totalPeserta) {
 
@@ -47,15 +47,19 @@ class DashboardController extends Controller
         return view('admin.dashboard', [
             'jumlah' => [
                 'pimpinan' => Delegator::count(),
-                'peserta' => $totalPeserta,
+                'peserta' => [
+                    'ipnu' => $totalPeserta->whereGender('L')->count(),
+                    'ippnu' => $totalPeserta->whereGender('P')->count(),
+                    'total' => $totalPeserta->count()
+                ],
                 'verified' => Delegator::whereHas('steps', function($q){
                     $q->where('step', DelegatorStep::$DITERIMA);
                 })->count()
             ],  
             'bayar' => [
-                'sudah' => $sudah = Delegator::whereHas('payment', function($q){ $q->whereNotNull('accepted_at'); })->count() * config('konfer.htm'),
+                'sudah' => $sudah = Delegator::whereHas('payment', function($q){ $q->whereNotNull('accepted_at'); })->withCount('participants')->get()->sum('participants_count') * config('konfer.htm'),
 
-                'belum' => $belum = Delegator::whereDoesntHave('payment', function($q){ $q->whereNotNull('accepted_at'); })->withCount('participants')->get()->sum('participants_count') * config('konfer.htm'),
+                'belum' => $belum = Delegator::whereHas('payment', function($q){ $q->whereNull('accepted_at'); })->withCount('participants')->get()->sum('participants_count') * config('konfer.htm'),
 
                 'data' => [$sudah, $belum]
             ],
