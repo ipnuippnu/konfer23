@@ -109,9 +109,10 @@
             createdRow(row, data, dataIndex){
                 $(row).find('.openlink').click(function(e){
                     e.preventDefault();
-                    var win = window.open(e.target.href, "window-2", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+                    var win = window.open(e.target.href, "window-2", "toolbar=yes,scrollbars=yes,resizable=yes");
                     win.addEventListener("unload", function(){
-                        $('#add-row').DataTable().ajax.reload();
+                        var page = $('#add-row').DataTable().page.info().page;
+                        $('#add-row').DataTable().ajax.reload(null, false).page(page).draw(false);
                     });
                     
                 });
