@@ -18,7 +18,7 @@ class DelegatorController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()) return datatables()->of(Delegator::query()->withCount('participants')->with('step'))->make(true);
+        if($request->ajax()) return datatables()->of(Delegator::query()->withCount('participants')->with('step')->orderBy('created_at', 'asc'))->make(true);
         return view('admin.delegators');
     }
 

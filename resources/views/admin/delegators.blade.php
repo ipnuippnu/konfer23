@@ -68,6 +68,8 @@
 @push('footer')
 	<script src="{{ asset('assets/js/plugin/datatables/datatables.min.js') }}"></script>
     <script>
+        var bc = new BroadcastChannel('refresh_delegators');
+        
         $('#add-row').DataTable({
             processing: true,
             serverSide: true,
@@ -86,7 +88,7 @@
                     return `<span class="badge ${color ? `badge-${color}` : ''}">${data}</span>`
                 } },
                 { data: 'name', render: (val, type, row) => {
-                    return `<a href="{{ route('admin.delegators.show', '') }}/${row.id}" class="mb-1 d-block">${val}</a>` + `<span class="badge">${row.address_code}</span>`
+                    return `<a href="{{ route('admin.delegators.show', '') }}/${row.id}" class="openlink mb-1 d-block">${val}</a>` + `<span class="badge">${row.address_code}</span>`
                 }},
                 { data: 'attempt', render: (a) =>  `${--a}x`},
                 { data: 'id', searchable:false, orderable:false, render(val, type, row){
@@ -105,6 +107,14 @@
             ],
             
             createdRow(row, data, dataIndex){
+                $(row).find('.openlink').click(function(e){
+                    e.preventDefault();
+                    var win = window.open(e.target.href, "window-2", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+                    win.addEventListener("unload", function(){
+                        $('#add-row').DataTable().ajax.reload();
+                    });
+                    
+                });
                 $(row).find('.cek-berkas').click(function(){
                     Swal.fire({
                         title: 'Validasi Berkas',
@@ -147,5 +157,7 @@
                 });
             }
         });
+
+        bc.onmessage = () => $('#add-row').DataTable().ajax.reload();
     </script>
 @endpush

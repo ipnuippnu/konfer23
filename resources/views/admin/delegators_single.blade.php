@@ -138,6 +138,8 @@
 
 @push('footer')
 <script>
+    var bc = new BroadcastChannel('refresh_delegators');
+
     function showPdf(url, title){
 
         if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
@@ -172,6 +174,10 @@
                 text: e.data.message ?? 'Kesalahan pada sistem. Mohon hubungi admin.'
             })
         }
+
+        bc.postMessage('refresh');
+        window.close()
+
     })
 
     function terima()
