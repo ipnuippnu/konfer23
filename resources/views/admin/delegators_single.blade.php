@@ -95,6 +95,7 @@
                                             <b>{{ $participant->name }}</b>
                                             <small class="d-block text-muted">{{ $participant->jabatan }}</small>
                                         </td>
+                                        @if($delegator->banom == 'ippnu')
                                         <td class="d-flex">
                                             <button type="button" onclick="showPdf('{{ $participant->sertifikat_makesta }}')" class="btn btn-primary btn-sm my-auto mr-2"><i class="fas fa-file-pdf"></i></button>
                                             <select class="my-auto flex-1" style="width: 100px;" name="{{ $participant->id }}">
@@ -103,8 +104,8 @@
                                                 <option value="2" {{ $participant->status == 2 ? 'selected' : '' }}>Tidak Sesuai, Sudah MAKESTA</option>
                                                 <option value="3" {{ $participant->status == 3 ? 'selected' : '' }}>Tidak Sesuai, Belum MAKESTA</option>
                                             </select>
-                                            
                                         </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -183,7 +184,7 @@
             showCancelButton: true
         }).then(result => {
             if(result.isConfirmed){
-                return aksi({'action': 'accept', 'participants': $('#peserta').serializeArray(), 'status_sp': $('#status_sp').val()});
+                return aksi({'action': 'accept', @if($delegator->banom == 'ippnu') 'participants': $('#peserta').serializeArray(), @endif 'status_sp': $('#status_sp').val()});
             }
         })
     }
