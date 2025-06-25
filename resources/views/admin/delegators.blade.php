@@ -86,7 +86,7 @@
                     return `<span class="badge ${color ? `badge-${color}` : ''}">${data}</span>`
                 } },
                 { data: 'name', render: (val, type, row) => {
-                    return `<div class="mb-1">${val}</div>` + `<span class="badge">${row.address_code}</span>`
+                    return `<a href="{{ route('admin.delegators.show', '') }}/${row.id}" class="mb-1 d-block">${val}</a>` + `<span class="badge">${row.address_code}</span>`
                 }},
                 { data: 'attempt', render: (a) =>  `${--a}x`},
                 { data: 'id', searchable:false, orderable:false, render(val, type, row){

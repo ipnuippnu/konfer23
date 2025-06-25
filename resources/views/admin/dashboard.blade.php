@@ -30,7 +30,7 @@
                         </div>
                         <div class="px-2 pb-2 pb-md-0 text-center">
                             <canvas id="circles-2"></canvas>
-                            <h6 class="fw-bold mt-3 mb-0">Total Peserta</h6>
+                            <h6 class="fw-bold mt-3 mb-0">Total Peserta ({{ $jumlah['peserta']['total'] }})</h6>
                         </div>
                     </div>
                 </div>
@@ -72,9 +72,18 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-12">
                             <div class="table-responsive table-hover table-sales">
                                 <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 20px"></th>
+                                            <th>Kecamatan</th>
+                                            <th class="text-right">Jumlah Peserta</th>
+                                            <th class="text-right">Pimpinan</th>
+                                            <th class="text-right">Persentase</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         @foreach($perkecamatan['data'] as $key => $kecamatan)
                                         <tr>
@@ -83,7 +92,26 @@
                                             </td>
                                             <td>{{ $kecamatan['name'] }}</td>
                                             <td class="text-right">
-                                                {{ $kecamatan['total'] }} peserta
+                                                <span class="badge badge-success">
+                                                    {{ $kecamatan['peserta']['ipnu'] }} IPNU
+                                                </span>
+                                                <span class="badge badge-info">
+                                                    {{ $kecamatan['peserta']['ippnu'] }} IPPNU
+                                                </span>
+                                                <span class="badge badge-danger font-bold">
+                                                    {{ $kecamatan['peserta']['total'] }} TOTAL
+                                                </span>
+                                            </td>
+                                            <td class="text-right">
+                                                <span class="badge badge-success">
+                                                    {{ $kecamatan['delegators']['ipnu'] }} IPNU
+                                                </span>
+                                                <span class="badge badge-info">
+                                                    {{ $kecamatan['delegators']['ippnu'] }} IPPNU
+                                                </span>
+                                                <span class="badge badge-danger font-bold">
+                                                    {{ $kecamatan['delegators']['total'] }} TOTAL
+                                                </span>
                                             </td>
                                             <td class="text-right">
                                                 {{ $kecamatan['persentase'] }}%
@@ -103,7 +131,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-12">
                             <div class="mapcontainer mb-2">
                                 <canvas id="piePesertaKecamatan"></canvas>
                             </div>
@@ -153,6 +181,8 @@
 
 @push('footer')
 
+<script src="{{ asset('assets/js/plugin/datatables/datatables.min.js') }}"></script>
+
 <!-- Chart JS -->
 <script src="{{ asset("assets/js/plugin/chart.js/chart.min.js") }}"></script>
 
@@ -189,8 +219,8 @@
                     label: 'Keuangan',
                     data: @json([$jumlah['peserta']['ipnu'], $jumlah['peserta']['ippnu']]),
                     backgroundColor: [
-                        'rgb(54, 162, 54)',
-                        'rgb(255, 99, 132)',
+                        'rgb(17, 115, 142)',
+                        'rgb(248, 133, 158)',
                     ],
                     hoverOffset: 4
                 }]
@@ -245,6 +275,11 @@
                     hoverOffset: 4
                 }]
             }
+        })
+
+        $('table').DataTable({
+            responsive: true,
+            searching: true,
         })
 	
 </script>

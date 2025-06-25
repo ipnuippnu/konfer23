@@ -22,18 +22,27 @@ class DashboardController extends Controller
             return redirect()->route('admin.qr.index');
         }
 
-        $totalPeserta = Participant::query();
+        $perKecamatan = Cache::remember('perKecamatan', 60, function() {
 
-        $perKecamatan = Cache::remember('perKecamatan', 60, function() use($totalPeserta) {
-
-            $data = collect(config('konfer.kecamatan'))->map(function($name, $code) use($totalPeserta) {
+            $data = collect(config('konfer.kecamatan'))->map(function($name, $code) {
 
                 $warna = sprintf("#%02x%02x%02x", rand(0, 255), rand(0, 255), rand(0, 255));
+                $total = Delegator::where('address_code', 'LIKE', "{$code}%")->withCount('participants')->get()->sum('participants_count');
                 return [
-                    'total' => $total = Delegator::where('address_code', 'LIKE', "{$code}%")->withCount('participants')->get()->sum('participants_count'),
-                    'persentase' => $total == 0 ? 0 : round($total / $totalPeserta->count() * 100, 1),
+                    'total' => $total,
+                    'persentase' => $total == 0 ? 0 : round($total / Participant::count() * 100, 1),
                     'warna' => $warna,
-                    'name' => "Kecamatan {$name}"
+                    'name' => "Kecamatan {$name}",
+                    'peserta' => [
+                        'ipnu' => Delegator::where('address_code', 'LIKE', "{$code}%")->withCount(['participants' => fn($q) => $q->whereGender('L')])->get()->sum('participants_count'),
+                        'ippnu' => Delegator::where('address_code', 'LIKE', "{$code}%")->withCount(['participants' => fn($q) => $q->whereGender('P')])->get()->sum('participants_count'),
+                        'total' => $total
+                    ],
+                    'delegators' => [
+                        'ipnu' => Delegator::where('address_code', 'LIKE', "{$code}%")->whereBanom('ipnu')->count(),
+                        'ippnu' => Delegator::where('address_code', 'LIKE', "{$code}%")->whereBanom('ippnu')->count(),
+                        'total' => Delegator::where('address_code', 'LIKE', "{$code}%")->count()
+                    ]
                 ];
 
             })->sortByDesc('total')->values();
@@ -42,15 +51,15 @@ class DashboardController extends Controller
                 'data' => $data,
                 'updated_at' => Carbon::now()
             ];
-        }); 
+        });
 
         return view('admin.dashboard', [
             'jumlah' => [
                 'pimpinan' => Delegator::count(),
                 'peserta' => [
-                    'ipnu' => $totalPeserta->whereGender('L')->count(),
-                    'ippnu' => $totalPeserta->whereGender('P')->count(),
-                    'total' => $totalPeserta->count()
+                    'ipnu' => Participant::whereGender('L')->count(),
+                    'ippnu' => Participant::whereGender('P')->count(),
+                    'total' => Participant::count()
                 ],
                 'verified' => Delegator::whereHas('steps', function($q){
                     $q->where('step', DelegatorStep::$DITERIMA);
@@ -59,7 +68,7 @@ class DashboardController extends Controller
             'bayar' => [
                 'sudah' => $sudah = Delegator::whereHas('payment', function($q){ $q->whereNotNull('accepted_at'); })->withCount('participants')->get()->sum('participants_count') * config('konfer.htm'),
 
-                'belum' => $belum = Delegator::whereHas('payment', function($q){ $q->whereNull('accepted_at'); })->withCount('participants')->get()->sum('participants_count') * config('konfer.htm'),
+                'belum' => $belum = Delegator::whereDoesntHave('payment', function($q){ $q->whereNotNull('accepted_at'); })->withCount('participants')->get()->sum('participants_count') * config('konfer.htm'),
 
                 'data' => [$sudah, $belum]
             ],
