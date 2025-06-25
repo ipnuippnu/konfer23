@@ -61,9 +61,21 @@
                                 <button onclick="showPdf('{{ $delegator->surat_tugas }}')" class="btn btn-secondary btn-sm"><i class="fas fa-file-pdf mr-2"></i> Lihat</button>
                             </td>
                         </tr>
+                        <tr>
+                            <td>Status SP</td>
+                            <td>:</td>
+                            <td>
+                                <select name="status_sp" id="status_sp">
+                                    <option value="1">AKTIF</option>
+                                    <option value="0">
+                                        TIDAK AKTIF
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
                     </table>
 
-                    <h4 class="mt-2 pb-2 fw-bold">Peserta ({{ $delegator->participants->count() }} orang)</h4>
+                    <h4 class="mt-2 pb-2 fw-bold">Peserta ({{ $participants->count() }} orang)</h4>
                     <form id="peserta">
                         <table class="table">
                             <thead>
@@ -74,7 +86,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                                @foreach ($delegator->participants as $participant)
+                                @foreach ($participants as $participant)
                                     <tr>
                                         <td style="margin: 0 !important; padding: 0!important; text-align: center">
                                             <img onclick="showPdf('{{ \Storage::url($participant->foto_resmi) }}')" src="{{ \Storage::url($participant->foto_resmi) }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%; cursor: pointer" alt="">
@@ -84,7 +96,7 @@
                                             <small class="d-block text-muted">{{ $participant->jabatan }}</small>
                                         </td>
                                         <td class="d-flex">
-                                            <button onclick="showPdf('{{ $participant->sertifikat_makesta }}')" class="btn btn-primary btn-sm my-auto mr-2"><i class="fas fa-file-pdf"></i></button>
+                                            <button type="button" onclick="showPdf('{{ $participant->sertifikat_makesta }}')" class="btn btn-primary btn-sm my-auto mr-2"><i class="fas fa-file-pdf"></i></button>
                                             <select class="my-auto flex-1" style="width: 100px;" name="{{ $participant->id }}">
                                                 <option value="" disabled selected>Pilih Status</option>
                                                 <option value="1" {{ $participant->status == 1 ? 'selected' : '' }}>Sesuai</option>
@@ -171,7 +183,7 @@
             showCancelButton: true
         }).then(result => {
             if(result.isConfirmed){
-                return aksi({'action': 'accept', 'participants': $('#peserta').serializeArray()});
+                return aksi({'action': 'accept', 'participants': $('#peserta').serializeArray(), 'status_sp': $('#status_sp').val()});
             }
         })
     }

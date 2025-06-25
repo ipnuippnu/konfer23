@@ -9,6 +9,7 @@ use App\Models\Participant;
 use App\Services\Saedo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class DelegatorController extends Controller
 {
@@ -39,8 +40,18 @@ class DelegatorController extends Controller
         $delegator->load(['participants', 'steps' => function($q) {
             $q->orderBy('created_at', 'desc');
         }]);
+
+        $participants = $delegator->participants->map(function(Participant $participant) {
+            if($participant->null) {
+                $participant->sertifikat_makesta = null;
+            }
+            else {
+                $participant->sertifikat_makesta = Storage::url($participant->sertifikat_makesta);
+            }
+            return $participant;
+        });
         
-        return view('admin.delegators_single', compact('delegator', 'kecamatan'));
+        return view('admin.delegators_single', compact('delegator', 'participants', 'kecamatan'));
     }
 
     /**
@@ -51,20 +62,31 @@ class DelegatorController extends Controller
         $request->validate([
             'action' => 'required|in:accept,reject',
             'reason' => 'required_if:action,reject',
-            'participants' => 'required_if:action,accept|array|min:1',
-            'participants.*.name' => 'required|exists:participants,id',
-            'participants.*.value' => 'required|in:1,2,3'
+            'status_sp' => 'required_if:action,accept|in:1,0'
         ]);
+
+        if($delegator->banom == 'ippnu') {
+            $request->validate([
+                'participants' => 'required|array|min:1',
+                'participants.*.name' => 'required|exists:participants,id',
+                'participants.*.value' => 'required|in:1,2,3',
+            ]);
+        }
 
         DB::transaction(function() use($request, $delegator) {
 
             if($request->get('action') == 'accept'){
 
-                foreach ($request->get('participants') as $participant) {
-                    $participant = Participant::findOrFail($participant['name']);
-                    $participant->sertifikat_status = $participant['value'];
-                    $participant->save();
+                if($delegator->banom == 'ippnu') {
+                    foreach ($request->get('participants') as $participant) {
+                        $participant = Participant::findOrFail($participant['name']);
+                        $participant->sertifikat_status = $participant['value'];
+                        $participant->save();
+                    }
                 }
+
+                $delegator->is_valid = !!$request->get('status_sp');
+                $delegator->save();
 
                 $delegator->steps()->create([
                     'step' => DelegatorStep::$DITERIMA
