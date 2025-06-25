@@ -68,7 +68,6 @@
 @push('footer')
 	<script src="{{ asset('assets/js/plugin/datatables/datatables.min.js') }}"></script>
     <script>
-        var bc = new BroadcastChannel('refresh_delegators');
         
         $('#add-row').DataTable({
             processing: true,
@@ -111,8 +110,7 @@
                     e.preventDefault();
                     var win = window.open(e.target.href, "window-2", "toolbar=yes,scrollbars=yes,resizable=yes");
                     win.addEventListener("unload", function(){
-                        var page = $('#add-row').DataTable().page.info().page;
-                        $('#add-row').DataTable().ajax.reload(null, false).page(page).draw(false);
+                        $('#add-row').DataTable().ajax.reload(null, false)
                     });
                     
                 });
@@ -158,7 +156,5 @@
                 });
             }
         });
-
-        bc.onmessage = () => $('#add-row').DataTable().ajax.reload();
     </script>
 @endpush
