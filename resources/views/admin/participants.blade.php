@@ -75,17 +75,14 @@
             columns: [
                 { searchable: false, orderable: false, render(val, type, row){
                     return `
-                    
-                    <div class="d-flex">
-                        <a href="{{ \Storage::url('') }}${row.foto_resmi}" target="_blank" class="btn btn-primary btn-sm mr-1">Foto</a>
-                ${row.sertifikat_makesta ? `<a href="{{ \Storage::url('') }}${row.sertifikat_makesta}" target="_blank" class="btn btn-secondary btn-sm mr-1">S. MAKESTA</a>` : '' }
-                        
-
-                    </div>
-
+                    <span class="badge badge-${row.status == 'OK' ? 'success' : 'danger'}">${row.status ?? '-'}</span>
                     `
                 }},
-                { data: 'name' },
+                { data: 'name', render (val, type, row) {
+                    return `
+                    <a href="{{ route('admin.participants.index') }}/${row.id}" class="openlink">${val}</a>
+                    `
+                } },
                 { data: 'jabatan' },
                 { data: 'born_date', render (a, b, c) {
                     return `${c.born_place} / ${c.born_date}`;
@@ -110,6 +107,15 @@
             ],
             createdRow(row, data, dataIndex){
                 if(data.jabatan == 'Ketua') $(row).find('td:eq(0)').css('text-decoration', 'underline dotted')
+
+                $(row).find('.openlink').click(function(e){
+                    e.preventDefault();
+                    var win = window.open(e.target.href, "window-2", "toolbar=yes,scrollbars=yes,resizable=yes");
+                    win.addEventListener("unload", function(){
+                        $('#add-row').DataTable().ajax.reload(null, false)
+                    });
+                    
+                });
             }
         });
     </script>
